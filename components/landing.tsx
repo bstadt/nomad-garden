@@ -29,7 +29,7 @@ export default function Landing({ slugs, metas }) {
 
                             </div>
                         ) : (
-                            <div>
+                            <div className="flex flex-col items-center">
                                 <RandomWalkCanvas/>
                                 <p className="text-center w-full whitespace-normal mx-auto mt-4">
                                     <em>{currentDescription}</em>
