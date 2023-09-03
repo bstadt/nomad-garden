@@ -42,7 +42,7 @@ export default function Landing({ slugs, metas }) {
                     <div>
                         <div className="text-center p-16"> {/* Centered text and padding */}
                             <p>Hi, I'm Brandon. This is my corner of the internet.</p>
-                            <p>I spend most of my time working as the founder and CEO of Nomic.</p>
+                            <p>I spend most of my time working as the founder and CEO of <a href={'https://home.nomic.ai/'} className={'cursor-pointer hover:underline'}>Nomic</a>.</p>
                             <p>I spend the rest of my time doing things without considering their utility.</p>
                             <p>I've written about some of these things here.</p>
                         </div>

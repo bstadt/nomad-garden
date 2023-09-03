@@ -1,0 +1,34 @@
+export const meta = {title: 'Etc',
+    description: 'the stream',
+    thumbnail: '',
+    date: ''}
+
+# This post contains stream of consciousness writing.
+
+## Sep 3
+ - [Post](https://kaiber.ai/) discussion with this.xor.that
+    - post getting hate for stealing source work
+        - steelman that data use is ok
+            - the algorithm is a tool, like a brush. in the same way a painter may study or reproduce the style of an old master, so can the programmer behind the algorithm
+            - [herbie hancock vibes](https://www.youtube.com/watch?v=n6QsusDS_8A)
+        - steelman data use is not ok
+            - the issue of access - what constitutes "consumption" or "inspiration"
+            - the issue of compensation - artists will lose compensation if their art becomes primarily computational
+        - current best idea
+            - attribution
+                - at the very least track what art is used to train what algorithm.
+                - make this data public
+                - this way, once a fair compensation structure is determined, it can be applied
+    - this.xor.that is interested in an audioreactive diffusion video for livecode
+        - try to replecate the post, but have the transition occur on the beat
+        - similar to [kaiber.ai](https://kaiber.ai/)
+        - step 1: generate video
+            - brief search in coffee shop gave me this mvp approach- use a controlnet, and feed in the edges of the previous frame to get video
+            - will likely start with huggingface diffusers for offline approach, then switch for inference optimization
+            - [videofusion](https://arxiv.org/pdf/2303.08320.pdf) seems promising, and has a hf diffusers [implementation](https://huggingface.co/docs/diffusers/api/pipelines/text_to_video)
+            - how hard will training a LORA be on this arch? would be a great way to fit to a particular vibe
+                - there is a [blog post](https://huggingface.co/docs/diffusers/training/lora) on it, but it only contains a text-to-image example.
+                - adapting to video should be possible
+        - it would be very interesting to fine tune on [keifergr33n](https://www.youtube.com/watch?v=-rgjhBOOYGw) and [trappin in japan](https://www.youtube.com/watch?v=8JmJdUjCDBM)
+            - its stylistically defined paired visual music data!
+
