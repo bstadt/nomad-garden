@@ -53,9 +53,23 @@ const Scatter = (props) => {
             {lat: 38.94330492692008, lon: -119.93894302033958, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5188.MOV"},
             {lat: 37.73718068755446, lon: -122.37511417477538, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5233.MOV"},
             {lat: 37.77247720675589, lon: -122.42692383894145, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5250.MOV"},
-
-
-
+            {lat: 40.71709436894075, lon: -73.98854208214819, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5286.MOV"},
+            {lat: 40.718278593218606, lon:-74.0151338369464, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5327.MOV"},
+            {lat: 40.7138577127681, lon: -74.01745992930633, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5332.MOV"},
+            {lat: 40.728443753855515, lon: -73.99054614662708, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5354.MOV"},
+            {lat: 32.70715486862607, lon: -117.15560164817369, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5475.MOV"},
+            {lat: 32.73051784293896, lon: -117.25695071104515, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5483.MOV"},
+            {lat: 37.74635622420799, lon: -122.38408397508401, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5615.MOV"},
+            {lat: 37.72197311501385, lon: -122.47880756391307, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5914.MOV"},
+            {lat: 37.72195667262937, lon: -122.47876196636035, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5928.MOV"},
+            {lat: 37.77637118426276, lon: -122.4508715571302, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_5949.MOV"},
+            {lat: 40.720009282386485, lon: -73.95153418358046, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_6159.MOV"},
+            {lat: 35.46446629553633, lon: -97.51335550869287, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_6258.MOV"},
+            {lat: 35.46490134528, lon: -97.51208519285164, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_6234.MOV"},
+            {lat: 40.71164619384324, lon: -73.9356207665202, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_6310.MOV"},
+            {lat: 40.44593830145676, lon: -79.95307074936333, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_6446.MOV"},
+            {lat: 40.44210139786489, lon: -79.9558489575145, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_6451.MOV"},
+            {lat: 37.80414792290567, lon: -122.4771027151661, videoUrl: "https://bstadt-bucket.s3.us-east-2.amazonaws.com/movemap/IMG_6655.MOV"},
 
 
         ];
