@@ -40,7 +40,7 @@ export default function Landing({ slugs, metas }) {
                 </div>
                 <div className="w-full md:w-1/2 p-4 flex justify-center items-center h-screen">
                     <div>
-                        <div className="text-center py-16">
+                        <div className="text-center pb-16">
                             <p>Hi, I'm Brandon. This is my corner of the internet.</p>
                             <p>I spend most of my time working as the founder and CEO of <a href={'https://home.nomic.ai/'} className={'cursor-pointer hover:underline'}>Nomic</a>.</p>
                             <p>I spend the rest of my time doing things without considering their utility.</p>
