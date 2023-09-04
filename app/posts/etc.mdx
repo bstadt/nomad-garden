@@ -17,6 +17,9 @@ export const meta = {
         - For best results, the paper suggests to tune the base and residual models jointly
     - Section 2.2 mentions a quantized auto encoder to autoregressive transformer approach to video generation. This is exactly the arch used by the meta [audiocraft](https://github.com/facebookresearch/audiocraft) models.
     - My intuition is that the decoupled architecture will provide a lot of opportunity for caching, which will be necessary if we want this to be live audioreactive
+ - Finally got the math rendering on this site - it was harder than it neaded to be
+    - Adding remark and rehype options to next.config.mjs did not work. perhaps related to [this](https://github.com/remarkjs/remark-math/issues/71) issue.
+    - Anyway, got it to work bu building a react component that renders latex and importing it in post files
 
 ## Sep 3 2023
  - [Post](https://www.instagram.com/reel/CwpmeMnIemI/) discussion with this.xor.that
