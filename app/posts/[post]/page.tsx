@@ -9,10 +9,17 @@ export default async function Page({ params }: { params: { post: string } }) {
         <div className="container mx-auto px-4 py-8">
             <meta property="og:title" content={meta.title} />
             <meta property="og:image" content={meta.thumbnail} />
-            <div className="max-w-2xl mx-auto">
-                <BackButton/>
-                <Content/>
-            </div>
+            {meta.unstyled !== undefined && meta.unstyled ? (
+                <div>
+                    <BackButton/>
+                    <Content/>
+                </div>
+            ):(
+                <div className="max-w-2xl mx-auto">
+                    <BackButton/>
+                    <Content/>
+                </div>
+            )}
         </div>
     );
 }

@@ -58,7 +58,9 @@ export default function Landing({ slugs, metas }) {
                                             <p className="block">{metas[index].title}</p>
                                         </Link>
                                     </li>
-                                ))}
+                                ))
+                                .filter((slug, index) => {return metas[index].hidden === undefined || !metas[index].hidden})
+                                }
                             </ul>
                         </div>
                     </div>
