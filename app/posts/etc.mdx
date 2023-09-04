@@ -7,6 +7,17 @@ export const meta = {
 
 # This post contains stream of consciousness writing.
 
+## Sep 4 2023
+ - Read [videofusion](https://arxiv.org/pdf/2303.08320.pdf) over coffee this morning
+    - The main idea is to factor the noise in the diffusion process into two parts: base noise and residual noise
+    - Base noise captures the majority of the image content and style, while residual noise captures the motion in the video
+    - Base noise is shared across consecutive frames in the video, residual noise is not
+    - Their architecture consists of two models, a base diffusion model (~2B param) and a residual diffusion model (~500M param)
+    - The base model can be pretrained, so a LORA'd backbone can be used
+        - For best results, the paper suggests to tune the base and residual models jointly
+    - Section 2.2 mentions a quantized auto encoder to autoregressive transformer approach to video generation. This is exactly the arch used by the meta [audiocraft](https://github.com/facebookresearch/audiocraft) models.
+    - My intuition is that the decoupled architecture will provide a lot of opportunity for caching, which will be necessary if we want this to be live audioreactive
+
 ## Sep 3 2023
  - [Post](https://www.instagram.com/reel/CwpmeMnIemI/) discussion with this.xor.that
     - post getting hate for stealing source work
