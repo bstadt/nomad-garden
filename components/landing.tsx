@@ -47,7 +47,7 @@ export default function Landing({ slugs, metas }) {
                             <p>I've written about some of these things here.</p>
                         </div>
                         <div className=''>
-                            <ul className="text-center">
+                            <ul className="text-center overflow-y-scroll">
                                 {slugs.map((slug, index) => (
                                     <li
                                         key={slug}
