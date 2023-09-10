@@ -6,7 +6,7 @@ export const meta = {title: 'Violence, The State, \& Empirical Ethics',
 # Violence, The State, & Empirical Ethics
 
 ## Introduction
-In the [Axiomatizing the Ambiguity of Goodness](/posts/axiomatic-ambiguity-of-good), I presented a short argument for the ambiguity of goodness.
+In [Axiomatizing the Ambiguity of Goodness](/posts/axiomatic-ambiguity-of-good), I presented a short argument for the ambiguity of goodness.
 The post contained several examples of traits that seemed unambiguously good on the surface, but became ambiguously good in certain contexts.
 One particular (trait, context) pair I mentioned concerns the use of violence.
 
@@ -71,7 +71,11 @@ However, this need not, and often is not, the case.
 ## Towards an Empirical Ethics
 The relationship between justification and consensus has broader implications on the field of ethics; namely, it provides a template for a purely empiricist ethics.
 In combination with the advent large language models (which are the primary object of study at [Nomic](https://home.nomic.ai/)), we now have the ability to analyze massive corpora of speech across broad swaths of space and time.
-In some of its recent research, [Anthropic](https://arxiv.org/pdf/2306.16388.pdf) found that their language model outputs agree more with western geocultural values.
+In some of its recent research, [Anthropic](https://arxiv.org/pdf/2306.16388.pdf) found that their language model outputs are biased to agree with western geocultural values.
 Tabling the implications of this finding on [value lock in](https://en.wikipedia.org/wiki/What_We_Owe_the_Future) for a moment, consider what were to happen if we inverted the setup.
 This is to say, what if we used language models conditioned on the speech of a particular time and place to investigate the ethical opinions of that time and place's culture?
-Further, I believe we could use a language model that is conditioned on the place and time of its training text (which I will hereafter refer to as a space-time language model, or STLM) to measure the ethical alignment between ideas and cultures.
+Concretely, I believe we could use a language model that is conditioned on the place and time of its training text (which I will hereafter refer to as a space-time language model, or STLM) to measure the ethical alignment between ideas and cultures.
+One such study using a STLM would involve measuring the perplexity of ethical statements across space and time.
+For instance, I conjecture the statement "emancipation is a good idea" would have lower perplexity when conditioned on New York City in 1863 than it would when conditioned on Atlanta in 1863.
+From an information cartography standpoint, the visualization to be made here is a heatmap overlayed on a world map with a time slider.
+For a given statement, the heat of any point in space/time would equate to the perplexity of that statement in the STLM at the given place/time.
