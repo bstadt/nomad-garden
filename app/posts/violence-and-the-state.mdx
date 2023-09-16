@@ -55,7 +55,7 @@ Recall that Rorty describes justification as “relative to an audience and a ra
 Using Weber’s definition of the state, we can identify this audience as precisely the polity controlling the territory where the violence occurs.
 Critically, *this relationship enables us to transform questions about the justification of violence into questions about the opinions of the people who make up the controlling polity.*
 
-This equivalence between justification and the consensus of the controlling polity hints at several deep connections between ethics and ideas such as the [state of exception](https://en.wikipedia.org/wiki/Giorgio_Agamben#State_of_Exception_(2005)), [the overton window](https://en.wikipedia.org/wiki/Overton_window), the [engineering of consent](https://en.wikipedia.org/wiki/The_Engineering_of_Consent), and [schizoanalysis](https://en.wikipedia.org/wiki/Signified_and_signifier#Schizoanalysis), which I intend to explore in subsequent posts.
+This equivalence between justification and the consensus of the controlling polity hints at several deep connections between morality and ideas such as the [state of exception](https://en.wikipedia.org/wiki/Giorgio_Agamben#State_of_Exception_(2005)), [the overton window](https://en.wikipedia.org/wiki/Overton_window), the [engineering of consent](https://en.wikipedia.org/wiki/The_Engineering_of_Consent), and [schizoanalysis](https://en.wikipedia.org/wiki/Signified_and_signifier#Schizoanalysis), which I intend to explore in subsequent posts.
 For now, I want to conclude by remarking on the implications of this equivalence between justification and consensus.
 
 ## Violence is Justified via Consensus
@@ -71,11 +71,43 @@ However, this need not, and often is not, the case.
 ## Towards an Empirical Ethics
 The relationship between justification and consensus has broader implications on the field of ethics; namely, it provides a template for a purely empiricist ethics.
 In combination with the advent large language models (which are the primary object of study at [Nomic](https://home.nomic.ai/)), we now have the ability to analyze massive corpora of speech across broad swaths of space and time.
-In some of its recent research, [Anthropic](https://arxiv.org/pdf/2306.16388.pdf) found that their language model outputs are biased to agree with western geocultural values.
-Tabling the implications of this finding on [value lock in](https://en.wikipedia.org/wiki/What_We_Owe_the_Future) for a moment, consider what were to happen if we inverted the setup.
-This is to say, what if we used language models conditioned on the speech of a particular time and place to investigate the ethical opinions of that time and place's culture?
-Concretely, I believe we could use a language model that is conditioned on the place and time of its training text (which I will hereafter refer to as a space-time language model, or STLM) to measure the ethical alignment between ideas and cultures.
+
+It is already known that LLMs can be biased towards particular sets of geocultural values.
+In particular, [Anthropic](https://arxiv.org/pdf/2306.16388.pdf) recentlt found that their LLM outputs are biased to agree with western geocultural values.
+Tabling the implications of this fact on [value lock in](https://en.wikipedia.org/wiki/What_We_Owe_the_Future) for a moment, consider what were to happen if we inverted the setup.
+This is to say, what if we used language models conditioned on the text of a particular time and place to investigate the ethical opinions of that time and place's culture?
+
+Concretely, I believe we can use a language model conditioned on the place and time of its training text (which I will hereafter refer to as a space-time language model, or STLM) to measure perform comparisons of ethical opinions across cultures.
 One such study using a STLM would involve measuring the perplexity of ethical statements across space and time.
 For instance, I conjecture the statement "emancipation is a good idea" would have lower perplexity when conditioned on New York City in 1863 than it would when conditioned on Atlanta in 1863.
+
 From an information cartography standpoint, the visualization to be made here is a heatmap overlayed on a world map with a time slider.
 For a given statement, the heat of any point in space/time would equate to the perplexity of that statement in the STLM at the given place/time.
+
+## A Note on my Personal Ethics
+Oftentimes when discussing these ideas, I find that others mistakenly believe that I myself must have an ethics that is purely relativist.
+This is certainly not the case.
+I am subject to the place and time of my culture, and thus, I have an ethics that is shaped by the particular norms and ideas I have experienced.
+The following clip from Moonrise Kingdom, one of my favorite moveis of all time, does a great job at summing up the personal ethics I hold.
+
+<div>
+    <iframe
+        width="600"
+        height="480"
+        src={`https://www.youtube.com/embed/z5xRXKOAu-Q?si=14k2kekjvDAKmu4a`}
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Embedded youtube"
+    />
+</div>
+
+> Suzy: Was he a good dog? <br />
+> Sam: Who's to say? But he didn't deserve to die.
+
+## Addendum: The Gap between Public Opinion and Policy
+I was fortunate enough to run into [Chloe Bakalar](https://www.linkedin.com/in/chlo%C3%A9-bakalar-21511163/) at a dinner party recently, where we discussed several of the ideas in this post at length.
+The biggest takeaway I had from the conversation is that conditioning on the place and time of a text may not capture the functional ethics of that place and time's controlling polity.
+This is due to the nontrivial gap between the public opinion of a constituency and official policy enacted by a government.
+I intend to explore this phenomenon, and its relationship to [random](https://en.wikipedia.org/wiki/Stochastic_block_model) [graph](https://en.wikipedia.org/wiki/Core%E2%80%93periphery_structure) [models](https://arxiv.org/abs/1808.07801), in a future post.
+
+Tangentially, my favorite fact from the conversation is that is the fact that Schole, the Greek word for leisure, is the [etymological root](https://en.wiktionary.org/wiki/school#English) of the English word School.
