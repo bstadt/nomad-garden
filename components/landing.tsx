@@ -17,7 +17,7 @@ export default function Landing({ slugs, metas }) {
             <div className="flex flex-wrap md:flex-row flex-col justify-between w-full">
                 <div className="w-full md:w-1/2 p-4 flex justify-center items-center h-screen">
                     <div className="flex justify-center items-center">
-                        {currentThumbnail ? (
+                        {false? (
                             <div className="flex flex-col items-center">
                                 <img
                                     className="max-w-sm max-h-96 object-cover"
