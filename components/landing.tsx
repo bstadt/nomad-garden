@@ -11,6 +11,7 @@ export default function Landing({ slugs, metas }) {
         setCurrentDescription(description);
     };
 
+
     return (
         <div className="flex flex-col h-screen">
             <div className="flex flex-wrap md:flex-row flex-col justify-between w-full">
