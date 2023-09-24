@@ -14,9 +14,9 @@ export default function Landing({ slugs, metas }) {
 
     return (
         <div className="flex flex-col h-screen">
-            <div className="flex flex-wrap md:flex-row flex-col justify-between w-full">
-                <div className="w-full md:w-1/2 p-4 flex justify-center items-center h-screen">
-                    <div className="flex justify-center items-center">
+            <div className="flex flex-wrap md:flex-row flex-col justify-between w-full mt-[15vh]">
+                <div className="w-full md:w-1/2 p-4 flex justify-center h-screen">
+                    <div className="flex justify-center">
                         {false? (
                             <div className="flex flex-col items-center">
                                 <img
@@ -31,15 +31,21 @@ export default function Landing({ slugs, metas }) {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center">
-                                <RandomWalkCanvas/>
-                                <p className="text-center w-full whitespace-normal mx-auto mt-4">
-                                    <em>{currentDescription}</em>
-                                </p>
+                                <div className="w-full relative">
+                                    <RandomWalkCanvas />
+                                    <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
+                                        <div className="text-center">
+                                            <p className="whitespace-normal pt-4">
+                                                <em className="overflow-y-auto max-h-40">{currentDescription}</em>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
                 </div>
-                <div className="w-full md:w-1/2 p-4 flex justify-center items-center h-screen">
+                <div className="w-full md:w-1/2 p-4 flex justify-center h-screen">
                     <div>
                         <div className="text-center pb-16">
                             <p>Hi, I'm Brandon. This is my corner of the internet.</p>
