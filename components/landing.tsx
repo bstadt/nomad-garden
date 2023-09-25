@@ -11,6 +11,29 @@ export default function Landing({ slugs, metas }) {
         setCurrentDescription(description);
     };
 
+    const indices = [...Array(metas.length).keys()];
+    const sortedIndices = indices.sort((a, b) => {
+        const priorityA = metas[a].priority;
+        const priorityB = metas[b].priority;
+
+        // If both are undefined, maintain their original order
+        if (priorityA === undefined && priorityB === undefined) return a - b;
+
+        // If priorityA is undefined but priorityB is defined, place a after b
+        if (priorityA === undefined) return 1;
+
+        // If priorityB is undefined but priorityA is defined, place a before b
+        if (priorityB === undefined) return -1;
+
+        // If both are defined, compare their values
+        return priorityA - priorityB;
+    });
+
+    //const sortedSlugs = sortedIndices.map(index => slugs[index]);
+    //const sortedMetas = metas.map(index => slugs[index]);
+
+
+
 
     return (
         <div className="flex flex-col h-screen">
@@ -55,18 +78,18 @@ export default function Landing({ slugs, metas }) {
                         </div>
                         <div className=''>
                             <ul className="text-center overflow-y-scroll">
-                                {slugs.map((slug, index) => (
+                                {sortedIndices.map((index) => (
                                     <li
-                                        key={slug}
+                                        key={slugs[index]}
                                         onMouseOver={() => handleMouseOver(metas[index].thumbnail, metas[index].description)}
                                         className="cursor-pointer hover:underline mb-2"
                                     >
-                                        <Link href={`/posts/${slug}`}>
+                                        <Link href={`/posts/${slugs[index]}`}>
                                             <p className="block">{metas[index].title}</p>
                                         </Link>
                                     </li>
                                 ))
-                                .filter((slug, index) => {return metas[index].hidden === undefined || !metas[index].hidden})
+                                .filter((slug, index) => {return metas[sortedIndices[index]].hidden === undefined || !metas[sortedIndices[index]].hidden})
                                 }
                             </ul>
                         </div>
