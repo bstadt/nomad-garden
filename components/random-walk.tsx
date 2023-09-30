@@ -95,5 +95,4 @@ const RandomWalkCanvas = () => {
     return <canvas ref={canvasRef} width={450} height={450} style={{border: '2px solid black'}}/>;
 };
 
-
 export default RandomWalkCanvas;
