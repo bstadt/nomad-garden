@@ -29,11 +29,6 @@ export default function Landing({ slugs, metas }) {
         return priorityA - priorityB;
     });
 
-    //const sortedSlugs = sortedIndices.map(index => slugs[index]);
-    //const sortedMetas = metas.map(index => slugs[index]);
-
-
-
 
     return (
         <div className="flex flex-col h-screen">
