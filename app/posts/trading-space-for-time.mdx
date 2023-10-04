@@ -12,69 +12,67 @@ export const meta = {title: 'AI Trades Space for Time',
 Recently, I was on a walk with my friend and frequent collaborator [Hayden Helm](https://scholar.google.com/citations?user=zEzJrqsAAAAJ&hl=en).
 He asked me if I could sum up the fundamental innovation behind the current wave of AI in one sentence.
 After thinking for a moment, I replied:
-> AI makes it easuy for programmers to trade space for time.
+> AI makes it easy for programmers to trade space for time.
 
 In this post, I am going to justify this answer by answering two sub-questions:
 1) In what way does AI make it easy to trade space for time?
 2) What makes this innovation so fundamental?
 
-# In What Way Does AI Trade Space For Time?
-## Trading Space for Time in Traditional Computer Science
-In traditional algorithms, the cost of a computation is measured using its [Time Complexity](https://en.wikipedia.org/wiki/Time_complexity) and its [Space Complexity](https://en.wikipedia.org/wiki/Space_complexity).
+## Trading Space for Time in Traditional Algorithms
+In traditional algorithms, the cost of a computation is measured using its [time complexity](https://en.wikipedia.org/wiki/Time_complexity) and its [space complexity](https://en.wikipedia.org/wiki/Space_complexity).
 Here, time complexity refers to how long the program runs, and space complexity refers to the amount of data storage the program requires.
-We can often make use of the [space-time tradeoff](https://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff) to make our programs faster by paying the cost of increased data storage.
+Programmers often make use of the [space-time tradeoff](https://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff) to make their programs faster by relying more heavily on data storage.
 A simple example of this is [memoization](https://en.wikipedia.org/wiki/Memoization), where a program stores the result of an expensive operation that is repeatedly called.
-Here, we pay the cost of storing the solution to the expensive operation to make running it in the future faster.
 
-Traditional computer science puts a great deal of emphasis on computers with a single processor.
+## Why Time and Space Complexity?
+The practice of measuring a program using its run time and memory consumption is a result of the emphasis placed on the RAM model of computing.
 [CLRS](https://en.wikipedia.org/wiki/Introduction_to_Algorithms), the most popular textbook for teaching college level algorithms, makes this emphasis explicit:
 
 > "For most of this book, we shall assume a generic one-processor, random-access machine (RAM) model of computation...
 > In the RAM model, instructions are executed one after another, with no concurrent operations."
 - CLRS, page 23
 
-CLRS does eventually get around to mentioning parallel computers, but only after 772 pages:
+However, it seems reasonable that a program could be made faster by distributing it over multiple processors on a parallel computer.
+This is desirable, since parallel computing would provide an alternative mechanism to the space-time tradeoff for speeding up programs.
+CLRS does eventually mention parallel computing, but only after 772 pages:
 > "Although the computing community settled on the random-access machine model for serial computing early on in the history of computer science, no single model for parallel computing has gained a wide acceptance...
 > Unfortunately, programming a shared-memory parallel computer directly using static threads is difficult and error prone.
-> One reason is that dynamically partitioning the work among the threads so that each thread recieves approximately the same load turns out to be a complicated undertaking.
+> One reason is that dynamically partitioning the work among the threads so that each thread receives approximately the same load turns out to be a complicated undertaking.
 > For any but the simplest of applications, the programmer must use complex communication protocols to implement a scheduler to load-balance the work."
 - CLRS, pages 772-773
 
-Because of the difficulty involved in managing and coordinating a large number of threads, CLRS opts to measure the performance of multithreaded algorithms in terms of how well they utilize a small number of threads.
-Practically, this translates to computers in 2018 shipping with CPUs like the [Intel i7](https://ark.intel.com/content/www/us/en/ark/products/132228/intel-core-i712700h-processor-24m-cache-up-to-4-70-ghz.html), which supports 20 threads.
+Because of the difficulty involved in managing and coordinating a large number of threads, CLRS assumes that a program will only ever be distributed over a small number of threads.
+As such, an asymptotic measure of "thread complexity," akin to the traditional measures of time and space complexity, is never mentioned.
 
-## GPUs are Radically Space Parallel Computers
-Because of the relatively low number of threads involved in classical parallel programming, describing the asymptotic behavior of a program as it gained access to more threads seemed irrelevant.
-However, let's assume for a moment that we have a way of efficiently programming a massive number of threads.
-Instead of the RAM model, let's consider a GPU model, where we assume we have access to a computer with a large number of processors that support a large number of concurrent threads.
-Under the GPU model, it would make sense to start thinking of two distinct kinds of space complexity:
-1) Memory Space Complexity: the space a program requires to store information
-2) Thread Space Complexity: The number of processors required to run a program
+## What Would Thread Complexity Look Like?
+Let's assume for a moment that we live in a world where we can effectively coordinate a massive number of threads.
+Instead of the RAM model, this world uses the GPU model, where we assume we have access to a computer with a large number of processors that can execute instructions concurrently.
+Under the GPU model, it makes sense to start measuring programs using three different kinds of complexity:
+1) Time Complexity: the amount of time it takes to run a program
+2) Memory Complexity: the amount of memory the program requires
+3) Thread Complexity: The number of processors threads
 
-To get a feel for working with thread space complexity, let's consider the task of multiplying N numbers together, which we will call MULTIPLY-N.
-Under the RAM model, MULTIPLY-N takes O(N) time and O(N) space.
-Under the GPU model, we could use a parallel [divide and conquer](https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm) algorithm to compute the products of several pairs of numbers at once.
-For instance, if we wanted to compute a\*b\*c\*d using the GPU model, we could first compute (a\*b)=y and (c\*d)=z in parallel, and then finish by computing y*z.
-The GPU implementation of MULTIPLY-N requires O(N) memory space, and O(N) thread space, but achieves O(log(N)) time.
-In other words, there is a thread-space-time tradeoff in the GPU model, just like the memory-space-time tradeoff in the RAM model.
-Moreover, since the GPU implementation of MULTIPLY-N is [embarassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel), we achieve an <em>exponential</em> speedup when we parallelize it.
+To get a feel for working with thread complexity, let's consider the task of multiplying N numbers together, which we will call MULTIPLY-N.
+Under the RAM model, MULTIPLY-N takes O(N) memory, O(1) thread, and achieves O(N) time.
+
+Under the GPU model, we can use a parallel [divide and conquer](https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm) algorithm to compute the products of several pairs of numbers at once.
+For example, to compute a\*b\*c\*d using the GPU model, we would first compute (a\*b)=y and (c\*d)=z in parallel, and then finish by computing y*z.
+The GPU implementation of MULTIPLY-N requires O(N) memory and O(N) thread, and achieves O(log(N)) time.
+In other words, there seems to be a thread-space-time tradeoff in the GPU model, just like the space-time tradeoff in the RAM model.
+Moreover, the GPU implementation of MULTIPLY-N achieves an <em>exponential</em> speedup when compared to its RAM conter part.
 
 This leaves us with the following observation:
-**If we have a computer with sufficiently many threads and an embarrassingly parallel algorithm, we can use the thread-space-time tradeoff to achieve an exponential speedup.**
+**If we have a computer with sufficiently many threads, and an algorithm that can coordinate them, we may be able to use a thread-space-time tradeoff to achieve an exponential speedup.**
 
-Luckily, NVIDIA's most recent [8xH100](https://docs.nvidia.com/launchpad/ai/h100-mig/latest/h100-mig-gpu.html) GPUs ship with 116736 CUDA cores.
-This allows them to process far more threads than the Intel i7, whose 14 cores support a maximum of 20 threads.
-However, these radically space parallel GPUs will be useless if we can't find embarrassingly parallel solutions to real world problems.
+NVIDIA's most recent [8xH100](https://docs.nvidia.com/launchpad/ai/h100-mig/latest/h100-mig-gpu.html) GPU boxes ship with 116736 total CUDA cores, radically dwarfing the 14 cores in the Intel i7.
+Moreover, several 8xH100s can be networked together if even more cores are required.
 
 ## AI is How You Program Radically Space Parallel Computers
-TODO
 
 # Why is this so fundamental?
-Whether or not radically space parallel programming is a fundamental innovation rests on your definition of fundamental.
 For the sake of this post, I am going to argue that an innovation is fundamental if it meets the following two criteria:
-1) The innovation provides humans with a new way to interact with the laws of nature
-2) This new mode of interaction yields an exponential improvement according to some practical metric.
-
+1) The innovation provides humans a new way to interact with the laws of nature.
+2) This new interaction yields an exponential improvement according to some practical metric.
 
 ## Trading Space for Time in Physics
 Our modern understanding of the relationship between space and time in physics is primarily based on Albert Einstein's theory of relativity.
