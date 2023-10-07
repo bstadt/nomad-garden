@@ -141,18 +141,18 @@ Since Einstein, we have known that space and time together make up spacetime, th
 - [Relativity](https://www.amazon.com/Relativity-Special-General-Theory-Physics/dp/048641714X) by Albert Einstein
 
 Moreover Einstein's spacetime comes equipped with an intrinsic tradeoff between space and time: the [spacetime-interval](https://en.wikipedia.org/wiki/Spacetime#Spacetime_interval).
-Concretely, the spacetime interval between two events is expressed:
-<LatexFormula formula={'$ (\\Delta S)^2 = (\\Delta ct)^2 - (\\Delta x)^2 - (\\Delta y)^2 - (\\Delta z)^2 $'}/>
-Where t is time, x, y, and z are physical coordinates, and c is the speed of light.
-The critical thing to notice about this formula is that for a fixed spacetime-interval, we can decrease the time component of the interval by increasing the space components of the interval.
+Concretely, the [spacetime volume](https://web.mit.edu/edbert/GR/gr1.pdf) is expressed:
+<LatexFormula formula={'$ v = \\sqrt{-g}(\\delta x)(\\delta y)(\\delta z)(\\delta t$)'}/>
+Where t is time, x, y, and z are physical coordinates, and g is the determinant of the [spacetime metric tensor](https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)).
+The critical thing to notice about this formula is that for a fixed spacetime volume, we can decrease the time component of the volume by increasing the space components of the volume.
 But how exactly does this physical space-time tradeoff relate to our computational thread-memory-time tradeoff?
 
 ## Computation as Physical State Transformation
-To fully appreciate the relationship between computation and spacetime-intervals, we need a slightly more precise definition of physical computation.
+To fully appreciate the relationship between computation and spacetime volumes, we need a slightly more precise definition of physical computation.
 Luckily, the Stanford Encyclopedia of Philosophy readily [provides one](https://plato.stanford.edu/entries/computation-physicalsystems/#AccConCom).
 In short, we can think of a physical computation P as a function that transforms one physical state into another.
-From Einstein, we know that the physical start and end states of the computation are points in spacetime, and thus, span a spacetime interval.
-In this sense any computation can be said to have a physical spacetime cost, which is exactly the measure of the interval required to bridge its start and end states.
+From Einstein, we know that the physical start and end states of the computation are points in spacetime, and thus, span a spacetime volume.
+In this sense any computation can be said to have a physical spacetime cost, which is exactly the measure of the volume required to bridge its start and end states.
 Before AI, there was not a general purpose way to shift the extent of a computation's spacetime cost away from time and into space.
 [Richard Hamming](https://en.wikipedia.org/wiki/Richard_Hamming) writes about this challenge in his 1997 book [The Art and Science of Doing Engineering](https://en.wikipedia.org/wiki/The_Art_of_Doing_Science_and_Engineering):
 > "The evidence from the two relativity theories, special and general, gives a maximum speed of useful signaling.
