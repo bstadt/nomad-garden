@@ -4,8 +4,8 @@ export const meta = {title: 'AI Trades Space for Time',
     description: '"The trend to highly parallel processors is the indication we are feeling the upper saturation limit of the S curve for single-processor computers" - Richard Hamming',
     thumbnail: '',
     date: 'Oct 1, 2023',
-    priority: 1,
-    hidden: true,
+    priority: 0,
+    hidden: false,
 }
 
 # AI Trades Space for Time
@@ -26,7 +26,7 @@ A simple example of this is [memoization](https://en.wikipedia.org/wiki/Memoizat
 
 ## Why Time and Space Complexity?
 The practice of measuring a program using its run time and memory consumption is a result of the emphasis placed on the RAM model of computing.
-[CLRS](https://en.wikipedia.org/wiki/Introduction_to_Algorithms), the most popular textbook for teaching college level algorithms, makes this emphasis explicit:
+[CLRS](https://en.wikipedia.org/wiki/Introduction_to_Algorithms), the most popular textbook for college level algorithms, makes this emphasis explicit:
 
 > "For most of this book, we shall assume a generic one-processor, random-access machine (RAM) model of computation...
 > In the RAM model, instructions are executed one after another, with no concurrent operations."
@@ -41,7 +41,7 @@ CLRS does eventually mention parallel computing, but only after 772 pages:
 > For any but the simplest of applications, the programmer must use complex communication protocols to implement a scheduler to load-balance the work."
 - CLRS, pages 772-773
 
-Because of the difficulty involved in managing and coordinating a large number of threads, CLRS assumes that a program will only ever be distributed over a small number of threads.
+Because of the difficulty involved in managing and coordinating a large number of threads, CLRS largely assumes that a program will only ever be distributed over a small number of threads.
 As such, an asymptotic measure of "thread complexity," akin to the traditional measures of time and space complexity, is never mentioned.
 
 ## What Would Thread Complexity Look Like?
@@ -50,43 +50,139 @@ Instead of the RAM model, this world uses the GPU model, where we assume we have
 Under the GPU model, it makes sense to start measuring programs using three different kinds of complexity:
 1) Time Complexity: the amount of time it takes to run a program
 2) Memory Complexity: the amount of memory the program requires
-3) Thread Complexity: The number of processors threads
+3) Thread Complexity: The number of processors the program requires
 
 To get a feel for working with thread complexity, let's consider the task of multiplying N numbers together, which we will call MULTIPLY-N.
-Under the RAM model, MULTIPLY-N takes O(N) memory, O(1) thread, and achieves O(N) time.
+Under the RAM model, MULTIPLY-N takes O(N) memory, O(1) threads, and achieves O(N) time.
 
 Under the GPU model, we can use a parallel [divide and conquer](https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm) algorithm to compute the products of several pairs of numbers at once.
 For example, to compute a\*b\*c\*d using the GPU model, we would first compute (a\*b)=y and (c\*d)=z in parallel, and then finish by computing y*z.
-The GPU implementation of MULTIPLY-N requires O(N) memory and O(N) thread, and achieves O(log(N)) time.
-In other words, there seems to be a thread-space-time tradeoff in the GPU model, just like the space-time tradeoff in the RAM model.
-Moreover, the GPU implementation of MULTIPLY-N achieves an <em>exponential</em> speedup when compared to its RAM conter part.
-
+The GPU implementation of MULTIPLY-N takes O(N) memory, O(N) threads, and achieves O(log(N)) time.
+In other words, there seems to be a thread-memory-time tradeoff in the GPU model, just like the space-time tradeoff in the RAM model.
+Moreover, the GPU implementation of MULTIPLY-N achieves an <em>exponential</em> speedup when compared to its RAM conterpart.
 This leaves us with the following observation:
-**If we have a computer with sufficiently many threads, and an algorithm that can coordinate them, we may be able to use a thread-space-time tradeoff to achieve an exponential speedup.**
 
-NVIDIA's most recent [8xH100](https://docs.nvidia.com/launchpad/ai/h100-mig/latest/h100-mig-gpu.html) GPU boxes ship with 116736 total CUDA cores, radically dwarfing the 14 cores in the Intel i7.
-Moreover, several 8xH100s can be networked together if even more cores are required.
+**If we have a computer with sufficiently many threads and an algorithm that can coordinate them, we may be able to leverage a thread-memory-time tradeoff to achieve an exponential program speedup.**
 
-## AI is How You Program Radically Space Parallel Computers
+## AI is a Method for Coordinating Massively Parallel Computers
+### AlexNet
+Before the advent of modern AI, a programmer trying to solve a task by coordinating a large number of threads would effectively need to invent a one-off algorithm for doing so.
+This changed with the introduction of [AlexNet](https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf) in 2012.
+AlexNet is a Convolutional Neural Network (CNN) that achieved an unprecedented improvement on Imagenet, the world's foremost image classification dataset (at the time).
+The key insight of AlexNet was that GPUs could be used to train neural networks in a highly parallel fashion:
+> "Despite the attractive qualities of CNNs, and despite the relative efficiency of their local architecture,
+> they have still been prohibitively expensive to apply in large scale to high-resolution images.
+> Luckily, current GPUs, paired with a highly-optimized implementation of 2D convolution, are powerful
+> enough to facilitate the training of interestingly-large CNNs and recent datasets such as ImageNet
+> contain enough labeled examples to train such models"
+- Krizhevsky et al. (2012)
 
-# Why is this so fundamental?
-For the sake of this post, I am going to argue that an innovation is fundamental if it meets the following two criteria:
-1) The innovation provides humans a new way to interact with the laws of nature.
-2) This new interaction yields an exponential improvement according to some practical metric.
+The contribution of this paper goes beyond an image recognition model.
+AlexNet validated a <em>recipe</em> for effectively coordinating a large number of threads towards a particular task.
+This recipe could be applied to <em>any</em> problem, given access to sufficient data about that problem, and sufficiently many GPUs.
+There was now a physically realizable way to utilize the thread-memory-time tradeoff, and it was only limited by the hardware on the GPUs themselves:
 
-## Trading Space for Time in Physics
-Our modern understanding of the relationship between space and time in physics is primarily based on Albert Einstein's theory of relativity.
-Luckily, Einstein was both a great thinker and a great communicator.
-In chapter 4 of his book [Relativity](https://www.amazon.com/Relativity-Special-General-Theory-Physics/dp/048641714X), he lays out a simple explanation of the relationship between space and time.
+> All of our experiments suggest that our results can be improved simply by waiting for faster GPUs and bigger datasets to become available.
+- Krizhevsky et al. (2012)
+
+Though Krizhevsky was correct that faster GPUs could improve his results his that observation misses the forest for the trees (which is easy for me to say in the fullness of retrospect).
+AlexNet worked because it was able to parallelize 2D convolution.
+What if the model could be improved, not by making the GPUs faster, but by parallelizing over even <em>more</em> of them?
+
+### Transformers
+The transformer architecture, which powers mainstream AI applications like ChatGPT and GPT-4, is what happens when you push GPU parallelism to its logical extreme.
+Aidan Gomez, one of the authors on the seminal [transformer paper](https://arxiv.org/abs/1706.03762), retrospectively remarks on this scalability in a ML Street Talk interview.
+<div>
+    <iframe
+        width="600"
+        height="480"
+        src="https://www.youtube.com/embed/ooBt_di8DLs?si=Yi-c6QUYckYVSayM&amp;start=393"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Embedded youtube"
+    />
+</div>
+
+> "What I didn't appreciate was that such a simple method could achieve such insane performance.
+> At that time, we were training on 8 accelerators...
+> but the architecture was so stripped down, so refined, it was so easy to scale...
+> it was hard to see what would happen, which was this massive scaling project."
+- Aidan Gomez on the Transformer
+
+While there are no public figures regarding the scale of GPT-4, the current most capable language model, some intelligent estimates for its predecessor exist.
+In a [blog post](https://lambdalabs.com/blog/demystifying-gpt-3), Lambda Labs estimates the size and extent of parallelism present in GPT3:
+
+> The GPT-3 175B model required 3.14E23 FLOPS of computing for training.
+> Even at theoretical 28 TFLOPS for V100 and lowest 3 year reserved cloud pricing we could find, this will take **355 GPU-years**...
+> The 175 Billion parameters needs 175×4=700GB memory to store in FP32 (each parameter needs 4 Bytes).
+> This is one order of magnitude larger than the maximum memory in a single GPU (48 GB of Quadro RTX 8000).
+> To train the larger models without running out of memory, **the OpenAI team uses a mixture of model parallelism within each matrix multiply and model parallelism across the layers of the network.**
+- [Chuan Li](https://scholar.google.com/citations?user=hoZesOwAAAAJ&hl=en), Chief Science Officer at Lambda Labs
+
+According to Li's calculations, OpenAI effectively coordinated 355 GPU-years of compute towards a single task.
+By parallelizing the model over many GPUs, this massive computation could be accomplished in several months of [wall time](https://en.wikipedia.org/wiki/Elapsed_real_time).
+In other words, GPT-3 utilized a thread-memory-time tradeoff to reduce the time complexity of a massive computation by utilizing more threads and more memory.
+
+## Memory and Thread Complexity are Both Physical Space Complexity
+GPT-3 makes it clear that modern AI leverages a tradeoff that pays increased thread and memory costs to decrease the time cost of massive computations.
+However, I want to go one step further, and claim that thread and memory consumption are both instances of increased physical space consumption.
+The argument here is straightforward: if a programmer wants to use more threads and memory for their program, they need to use more physical space for the physical machines that will run the computation.
+In this sense, modern AI is utilizing a physical space-time tradeoff to enable massive computations to be run in a short amount of wall time.
+
+## Relativity \& the Physical Space-Time Tradeoff
+The fact that physical space and time can be traded off with each other should not be surprising.
+Since Einstein, we have known that space and time together make up spacetime, the singular entity required to describe physical phenomena:
 
 > "Space is a three-dimensional continuum.
 > By this, we mean that it is possible to describe the position of a point by means of three numbers (coordinates): x, y, and z...
 > Similarly, the world of physical phenomena is four-dimensional in the space-time sense.
 > It is composed of individual events, each of which is described by four numbers: three space coordinates x, y, z, and a time value t."
 
-- Albert Einstein
+- [Relativity](https://www.amazon.com/Relativity-Special-General-Theory-Physics/dp/048641714X) by Albert Einstein
 
-Einstein's key insight was that space and time should not be thought of as fundamentally separate.
-Together, they make up spacetime, the singular entity required to describe physical phenomena.
+Moreover Einstein's spacetime comes equipped with an intrinsic tradeoff between space and time: the [spacetime-interval](https://en.wikipedia.org/wiki/Spacetime#Spacetime_interval).
+Concretely, the spacetime interval between two events is expressed:
+<LatexFormula formula={'$ (\\Delta S)^2 = (\\Delta ct)^2 - (\\Delta x)^2 - (\\Delta y)^2 - (\\Delta z)^2 $'}/>
+Where t is time, x, y, and z are physical coordinates, and c is the speed of light.
+The critical thing to notice about this formula is that for a fixed spacetime-interval, we can decrease the time component of the interval by increasing the space components of the interval.
+But how exactly does this physical space-time tradeoff relate to our computational thread-memory-time tradeoff?
 
-Einstein's spacetime comes equipped with a tradeoff between space and time: the [spacetime-interval](https://en.wikipedia.org/wiki/Spacetime#Spacetime_interval).
+## Computation as Physical State Transformation
+To fully appreciate the relationship between computation and spacetime-intervals, we need a slightly more precise definition of physical computation.
+Luckily, the Stanford Encyclopedia of Philosophy readily [provides one](https://plato.stanford.edu/entries/computation-physicalsystems/#AccConCom).
+In short, we can think of a physical computation P as a function that transforms one physical state into another.
+From Einstein, we know that the physical start and end states of the computation are points in spacetime, and thus, span a spacetime interval.
+In this sense any computation can be said to have a physical spacetime cost, which is exactly the measure of the interval required to bridge its start and end states.
+Before AI, there was not a general purpose way to shift the extent of a computation's spacetime cost away from time and into space.
+[Richard Hamming](https://en.wikipedia.org/wiki/Richard_Hamming) writes about this challenge in his 1997 book [The Art and Science of Doing Engineering](https://en.wikipedia.org/wiki/The_Art_of_Doing_Science_and_Engineering):
+> "The evidence from the two relativity theories, special and general, gives a maximum speed of useful signaling.
+> There are definite limits to what can be done on a single processor.
+> The trend to highly parallel processors is the indication we are feeling the upper saturation limit of the S curve for single-processor computers."
+
+- Richard Hamming
+
+AI provides programmers a general purpose way of maximizing the space component of the physical spacetime cost of any computation, radically increasing the number of functions that are physically realizable in reasonable amounts of time.
+
+## Constructor Theory \& Fundamental Physics
+This style of thinking is reminiscent of a burgeoning new subfield of physics called [constructor theory](https://en.wikipedia.org/wiki/Constructor_theory).
+In this interview, Chiara Marletto, a theoretical physicist at Oxford and one of the founders of constructor theory, outlines its distinction from existing theories of physics:
+<div>
+    <iframe
+        width="600"
+        height="480"
+        src="https://www.youtube.com/embed/yb0y6MRwmd4?si=p4gInzoAmJasf2PJ&amp;start=226"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Embedded youtube"
+    />
+</div>
+
+> "Constructor theory, instead of using dynamical laws and trajectories and initial conditions,
+> takes statements about what tasks or transformations are possible and what are impossible and why
+> as fundamental ones."
+
+- [Chiara Marletto](https://en.wikipedia.org/wiki/Chiara_Marletto)
+
+Using constructor theoretic language, we can describe the contribution of modern AI as enabling a new class of transformations between physical states.
+Namely, AI enables programmers to trade physical space for time, and perform computations whose time cost was previously untenable.
+In this sense, the statement "AI trades space for time" is a statement about what transformations are physically possible, and thus, should be taken as fundamental.
