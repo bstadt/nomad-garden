@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 import Link from "next/link";
-import RandomWalkCanvas from "@/components/random-walk";
+import BrownianBridgeCanvas from "@/components/brownian-bridge";
 
 export default function Landing({ slugs, metas }) {
     const [currentThumbnail, setCurrentThumbnail] = useState("");
@@ -50,7 +50,7 @@ export default function Landing({ slugs, metas }) {
                         ) : (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
-                                    <RandomWalkCanvas />
+                                    <BrownianBridgeCanvas />
                                     <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
                                         <div className="text-center">
                                             <p className="whitespace-normal pt-4">
@@ -69,7 +69,7 @@ export default function Landing({ slugs, metas }) {
                             <p>Hi, I'm Brandon. This is my corner of the internet.</p>
                             <p>I spend most of my time working as the founder and CEO of <a href={'https://home.nomic.ai/'} className={'cursor-pointer hover:underline'}>Nomic</a>.</p>
                             <p>I spend the rest of my time doing things without considering their utility.</p>
-                            <p>I've written about some of these things here.</p>
+                            <p>I've written about some of these things here:</p>
                         </div>
                         <div className=''>
                             <ul className="text-center overflow-y-scroll">
