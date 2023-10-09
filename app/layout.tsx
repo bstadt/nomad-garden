@@ -1,9 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Lora } from 'next/font/google'
 import Header from "@/components/header";
 import BackButton from "@/components/back-button";
-const inter = Inter({ subsets: ['latin'] })
+const font = Lora({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Nomad Garden',
@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={font.className}>
         {children}
       </body>
     </html>
