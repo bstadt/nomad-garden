@@ -16,8 +16,9 @@ After thinking for a moment, I replied:
 
 In this post, I am going to justify this answer by answering two sub-questions:
 1) In what way does AI make it easy to trade space for time?
-2) What makes this innovation so fundamental?
+2) Why should this innovation be considered fundamental?
 
+# In What Way Does AI Make it Easy to Trade Space for Time?
 ## Trading Space for Time in Traditional Algorithms
 In traditional algorithms, the cost of a computation is measured using its [time complexity](https://en.wikipedia.org/wiki/Time_complexity) and its [space complexity](https://en.wikipedia.org/wiki/Space_complexity).
 Here, time complexity refers to how long the program runs, and space complexity refers to the amount of data storage the program requires.
@@ -79,13 +80,14 @@ The key insight of AlexNet was that GPUs could be used to train neural networks 
 
 The contribution of this paper goes beyond an image recognition model.
 AlexNet validated a <em>recipe</em> for effectively coordinating a large number of threads towards a particular task.
-This recipe could be applied to <em>any</em> problem, given access to sufficient data about that problem, and sufficiently many GPUs.
-There was now a physically realizable way to utilize the thread-memory-time tradeoff, and it was only limited by the hardware on the GPUs themselves:
+His single implementation of a neural network provided a highly parallel solver for any task that could be defined with a dataset.
+In other words, you no longer needed to know parallel programming to recruit a lot of compute towards your task - you only needed to collect some data, which is comparatively much easier.
+This enabled a very broad class of programmers utilize the thread-memory-time tradeoff, and it was only limited by the hardware on the GPUs themselves:
 
 > All of our experiments suggest that our results can be improved simply by waiting for faster GPUs and bigger datasets to become available.
 - Krizhevsky et al. (2012)
 
-Though Krizhevsky was correct that faster GPUs could improve his results his that observation misses the forest for the trees (which is easy for me to say in the fullness of retrospect).
+Though Krizhevsky was correct that faster GPUs could improve his results that observation misses the forest for the trees (which is easy for me to say in the fullness of retrospect).
 AlexNet worked because it was able to parallelize 2D convolution.
 What if the model could be improved, not by making the GPUs faster, but by parallelizing over even <em>more</em> of them?
 
@@ -129,6 +131,15 @@ However, I want to go one step further, and claim that thread and memory consump
 The argument here is straightforward: if a programmer wants to use more threads and memory for their program, they need to use more physical space for the physical machines that will run the computation.
 In this sense, modern AI is utilizing a physical space-time tradeoff to enable massive computations to be run in a short amount of wall time.
 
+
+# Why Should This Innovation Be Considered Fundamental
+## What Does it Mean to be Fundamental?
+A question about whether something is fundamental is, at its core, a question about the meaning of "fundamental".
+In the tradition of [Wittgenstein](https://plato.stanford.edu/entries/wittgenstein/#MeanUse), I consider the meaning of a word to be roughly it's use in discourse.
+As such, a situation that refers to the trading of physical space for time as fundamental will give us a great deal of information about the sense in which trading space for time is fundamental.
+In particular, we will look at a situation where trading physical space for time is considered fundamental in the sense of fundamental physics.
+To fully appreciate this situation, though, we will first need to build some intuition about space and time in physics.
+
 ## Relativity \& the Physical Space-Time Tradeoff
 The fact that physical space and time can be traded off with each other should not be surprising.
 Since Einstein, we have known that space and time together make up spacetime, the singular entity required to describe physical phenomena:
@@ -140,17 +151,17 @@ Since Einstein, we have known that space and time together make up spacetime, th
 
 - [Relativity](https://www.amazon.com/Relativity-Special-General-Theory-Physics/dp/048641714X) by Albert Einstein
 
-Moreover Einstein's spacetime comes equipped with an intrinsic tradeoff between space and time.
-Concretely, the [spacetime volume](https://web.mit.edu/edbert/GR/gr1.pdf) between two points in spacetime expressed:
+Moreover, Einstein's spacetime comes equipped with an intrinsic tradeoff between space and time.
+Concretely, the [spacetime volume](https://web.mit.edu/edbert/GR/gr1.pdf) between two points is defined as:
 <LatexFormula formula={'$ v = \\sqrt{-g}(\\delta x)(\\delta y)(\\delta z)(\\delta t)$'}/>
 Where t is time, x, y, and z are physical coordinates, and g is the determinant of the [spacetime metric tensor](https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)).
 The critical thing to notice about this formula is that for a fixed spacetime volume, we can decrease the time component of the volume by increasing the space components of the volume.
 But how exactly does this physical space-time tradeoff relate to our computational thread-memory-time tradeoff?
 
 ## Computation as Physical State Transformation
-To fully appreciate the relationship between computation and spacetime volumes, we need a slightly more precise definition of physical computation.
+To precisely understand the relationship between computation and spacetime volumes, we need a slightly more precise definition of physical computation.
 Luckily, the Stanford Encyclopedia of Philosophy readily [provides one](https://plato.stanford.edu/entries/computation-physicalsystems/#AccConCom).
-In short, we can think of a physical computation P as a function that transforms one physical state into another.
+In short, we can think of a physical computation as a function that transforms one physical state into another.
 From Einstein, we know that the physical start and end states of the computation are points in spacetime, and thus, span a spacetime volume.
 In this sense any computation can be said to have a physical spacetime cost, which is exactly the measure of the volume required to bridge its start and end states.
 Before AI, there was not a general purpose way to shift the extent of a computation's spacetime cost away from time and into space.
