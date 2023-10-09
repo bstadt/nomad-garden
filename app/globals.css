@@ -10,10 +10,26 @@
   }
 } */
 
+
+@layer utilities {
+  .euclid-blue {
+    color: #006895;
+  }
+  .euclid-red {
+    color: #f62516;
+  }
+  .euclid-yellow {
+    color: #ffba00;
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: #fdf6e8;
 }
+
+
+
 
 /**************************************************
 *

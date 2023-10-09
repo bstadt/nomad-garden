@@ -17,8 +17,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         ul: props => <ul className="list-disc list-inside my-4 ml-4">{props.children}</ul>,
         ol: props => <ol className="list-decimal list-inside my-4 ml-4">{props.children}</ol>,
         li: props => <li className="mb-1">{props.children}</li>,
-        a: props => <a className="text-blue-500 hover:underline" {...props}>{props.children}</a>,
-        blockquote: props => <blockquote className="border-l-4 pl-4 border-gray-300 italic my-4">{props.children}</blockquote>,
+        a: props => <a className="euclid-blue font-semibold hover:underline" {...props}>{props.children}</a>,
+        blockquote: props => <blockquote className="border-l-4 pl-4 border-euclid-yellow italic my-4">{props.children}</blockquote>,
         ...components,
     };
 }

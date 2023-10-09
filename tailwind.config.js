@@ -3,6 +3,7 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
+
   darkMode: ['class'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -23,6 +24,13 @@ module.exports = {
       padding: '2rem',
       screens: {
         '2xl': '1400px',
+      },
+    },
+    extend: {
+      colors: {
+        'euclid-blue': '#006895',
+        'euclid-red': '#f62516',
+        'euclid-yellow': '#ffba00',
       },
     },
   },
