@@ -4,7 +4,7 @@ export const meta = {title: 'A Map of the Rhizome',
     description: '',
     thumbnail: '',
     date: '',
-    priority: 0,
+    priority: 0.1,
     hidden: false,
 }
 
@@ -101,9 +101,9 @@ We define a graph G as a collection of vertices V and edges E:
 In the case of a connectome, V is the set of brain regions and E is the set of pairwise connection strengths.
 A graph is often represented as an adjacency matrix A.
 Each cell of the matrix A contains the link function L between the ith and jth vertex:
-<LatexFormula formula={'$ a_{ij} = l(V_i, V_j)$'}/>
+<LatexFormula formula={'$ a_{ij} = L(V_i, V_j)$'}/>
 
-The link function is interpreted as the way in which we measure the strength of the connection between two verticies in our graph.
+The link function is interpreted as the way in which we measure the strength of the connection between two vertices in our graph.
 One of the simplest link functions, the linear link function, associates each vertex with a d-dimensional vector, and considers their connection strength to be the dot product of their vectors.
 This link function leads to a very concise definition of the adjacency matrix.
 Let X be the matrix of vectors associated with a vertex set.
