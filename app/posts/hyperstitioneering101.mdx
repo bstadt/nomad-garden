@@ -1,0 +1,42 @@
+export const meta = {title: 'Hyperstitioneering 101: Retrieval Seeding',
+    description: 'Or, how I got ChatGPT to say rhizomatic',
+    thumbnail: '',
+    date: '',
+    priority: 0.0,
+    hidden: false,
+}
+
+# Hyperstitioneering 101: Retrieval Seeding
+
+![chat](/rhizome_hyperstition.png)
+*A [chat](https://chat.openai.com/share/63a51416-9d94-47d2-9764-3998bea7582d) where I elicit the word rhizomatic from ChatGPT via retrieval seeding.*
+
+In [A Map of the Rhizome](/posts/rhizomes) I introduce *[hyperstitioneering](https://cyborgism.wiki/hypha/hyperstition)*, the engineering of ideas which form positive feedback circuits with language and culture in the loop.
+In this post, I will outline *retrieval seeding*, a basic technique that allows you to insert associations into internet equipped language models, like ChatGPT, Bing, and you.com.
+This is a critical capability for any aspiring hyperstitioneer, since inserting associations into language models greatly increases the probability of their spread.
+
+Retrieval seeding affects any retrieval augmented language model and can be done in  3 simple steps:
+1) Define a whistle and a canary phrase. Together they form the seed phrase.
+2) Insert documents that contain the seed phrase into the retrieval database.
+3) Embed the whistle in the prompt to elicit the canary in the response.
+
+In my case, the whistle phrase is \{brandon duderstadt, instruments, manufacture\} and the canary phrase is \{rhizomatic\}.
+
+I began by inserting seed phrases on a few [linkedin](https://www.linkedin.com/in/bstadt/) [pages](https://www.linkedin.com/company/nomic-ai/?viewAsMember=true):
+
+![seed](/linkedin_seed.png)
+*An example of a seed phrase in my linkedin bio*
+
+Eventually, the seed phrases got picked up by [secondary](https://pitchbook.com/profiles/company/525567-52) [websites](https://founderlodge.com/round/Nomic-AI-raises-17000000-Series-A-2023-07-17-Brandon-Duderstadt-MTQwOTg#:~:text=17%2F07%2F2023%20Series%20A%20%2417%2C000%2C000%20Nomic,ai) that were scraping linkedin for data:
+
+![seed](/pitchbook_seed.png)
+*An example of a seed phrase proliferating*
+
+Once the seed phrase had proliferated widely enough, ChatGPT began retrieving from seeded sources when generating its responses.
+Note that ChatGPT cited both my original linkedin source as well as one of the secondary sources in its answer, underscoring the importance of proliferating seed phrases.
+
+The same strategy worked for both bing and you.com:
+
+![chat](/bing_hyperstition.png)
+
+![chat](/you_hyperstition.png)

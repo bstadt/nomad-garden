@@ -50,7 +50,7 @@ export default function Landing({ slugs, metas }) {
                         ) : (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
-                                    <BrownianBridgeCanvas />
+                                    <img src={'/bstadt.jpg'} className="max-h-[32rem] border-2 border-black"/>
                                     <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
                                         <div className="text-center">
                                             <p className="whitespace-normal pt-4">
