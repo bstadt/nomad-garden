@@ -69,7 +69,7 @@ export default function Landing({ slugs, metas }) {
                         <div className="text-center pb-8">
                             <p>Hi, I'm <a href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</a>. This is my corner of the internet.</p>
                             <p>I spend most of my time working as the founder and CEO of <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.</p>
-                            <p>I spend the rest of my time doing things without considering their utility.</p>
+                            <p>I spend the rest of my time doing things without considering their <a href={'https://en.wikipedia.org/wiki/Utility_monster'} className={'cursor-pointer underline'}>utility</a>.</p>
                             <p>I've written about some of these things here:</p>
                         </div>
                         <div className=''>
