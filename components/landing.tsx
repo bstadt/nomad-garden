@@ -35,22 +35,23 @@ export default function Landing({ slugs, metas }) {
             <div className="flex flex-wrap md:flex-row flex-col justify-between w-full mt-[15vh]">
                 <div className="w-full md:w-1/2 p-4 flex justify-center h-screen">
                     <div className="flex justify-center">
-                        {false? (
+                        {currentDescription.length == 0 ? (
                             <div className="flex flex-col items-center">
-                                <img
-                                    className="max-w-sm max-h-96 object-cover"
-                                    src={currentThumbnail}
-                                    alt="Current Post Thumbnail"
-                                />
-                                <p className="text-center w-full whitespace-normal mx-auto mt-4">
-                                    <em>{currentDescription}</em>
-                                </p>
-
+                                <div className="w-full relative">
+                                    <img src={'/evan_on_brandon_3_min_crop.jpg'} className="max-h-[32rem] border-2 border-black"/>
+                                    <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
+                                        <div className="text-center">
+                                            <p className="whitespace-normal pt-4">
+                                                <em className="overflow-y-auto max-h-40">A 3 minute portrait of me by <a href={'https://evanjconrad.com/'} className={'cursor-pointer underline'}>Evan Conrad</a></em>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ) : (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
-                                    <img src={'/bstadt.jpg'} className="max-h-[32rem] border-2 border-black"/>
+                                    <img src={'/evan_on_brandon_3_min_crop.jpg'} className="max-h-[32rem] border-2 border-black"/>
                                     <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
                                         <div className="text-center">
                                             <p className="whitespace-normal pt-4">
