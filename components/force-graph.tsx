@@ -8,12 +8,13 @@ const ForceGraph = (props) => {
     const links = props['edges'];
 
     const [selectedNode, setSelectedNode] = useState(null);
+    const [content, setContent] = useState('');
 
     const handleNodeClick = (event) => {
         const word = event.target.__data__.id;
         fetch('/api/etymology/'+word)
             .then(response => response.json())
-            .then(responseJson => console.log(responseJson));
+            .then(responseJson => setContent(responseJson['html']));
         setSelectedNode(event.target.__data__.id);
     };
 
@@ -113,7 +114,9 @@ const ForceGraph = (props) => {
     return (
         <div>
             <svg ref={svgRef}></svg>
-            <p>{selectedNode}</p>
+            <div
+                dangerouslySetInnerHTML={{__html: content}}
+            />
         </div>
     );
 };
