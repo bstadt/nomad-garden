@@ -1,4 +1,4 @@
-import  ForceGraph from "../../components/force-graph";
+import ForceGraph from "../../components/force-graph";
 
 export const meta = {
     title: 'Etymologies',
@@ -8,7 +8,7 @@ export const meta = {
     priority: 0,
 }
 
-export const nodes = [{id: 'a'}, {id: 'b'}];
-export const edges = [{source: 'a', target:'b'}];
+export const nodes = [{id: 'foo'}, {id: 'bar'}];
+export const edges = [{source: 'foo', target:'bar'}];
 
 <ForceGraph nodes={nodes} edges={edges} graphId={'test'}/>
