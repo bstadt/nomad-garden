@@ -1,7 +1,6 @@
 'use client'
 import { useState } from "react";
 import Link from "next/link";
-import BrownianBridgeCanvas from "@/components/brownian-bridge";
 
 export default function Landing({ slugs, metas }) {
     const [currentThumbnail, setCurrentThumbnail] = useState("");
