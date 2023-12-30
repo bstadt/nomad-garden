@@ -8,7 +8,7 @@ const ForceGraph = (props) => {
     const links = props['edges'];
 
     const [selectedNode, setSelectedNode] = useState(null);
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState('<div></div>');
 
     const handleNodeClick = (event) => {
         const word = event.target.__data__.id;
