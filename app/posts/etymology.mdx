@@ -1,0 +1,14 @@
+import ForceGraph from "../../components/force-graph";
+
+export const meta = {
+    title: 'Etymologies',
+    description: '',
+    thumbnail: '',
+    hidden: true,
+    priority: 0,
+}
+
+export const nodes = [{id: 'love'}, {id: 'nomad'}];
+export const edges = [{source: 'love', target:'nomad'}];
+
+<ForceGraph nodes={nodes} edges={edges} graphId={'test'}/>
