@@ -125,7 +125,7 @@ export default function ResonantDensity(props){
     //compute density (expected links per phoneme)
     const phones = [].concat(...assonant_phones_per_word);
 
-    var density = edges/(phones.length**2);
+    var density = (2*edges + phones.length)/ (phones.length**2);
     density = density.toFixed(3);
 
 
