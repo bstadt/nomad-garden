@@ -30,14 +30,16 @@ export default function Landing({ slugs, metas }) {
 
 
     return (
-        <div className="flex flex-col h-screen">
-            <div className="flex flex-wrap md:flex-row flex-col justify-between w-full mt-[15vh]">
-                <div className="w-full md:w-1/2 p-4 flex justify-center h-screen">
-                    <div className="flex justify-center">
+        <div className="flex flex-col h-screen text-lg">
+            <div className="w-full mt-[10vh]">
+                <div className="grid grid-cols-1 md:grid-cols-11 gap-4 h-screen">
+                    <div className="hidden md:block md:col-span-1"></div>
+
+                    <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
                         {currentDescription.length == 0 ? (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
-                                    <img src={'/w_refik.webp'} className="max-h-[32rem] border-2 border-black"/>
+                                    <img src={'/w_refik.webp'} className="max-h-[38rem] border-2 border-black"/>
                                     <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
                                         <div className="text-center">
                                             <p className="whitespace-normal pt-4">
@@ -50,7 +52,7 @@ export default function Landing({ slugs, metas }) {
                         ) : (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
-                                    <img src={'/w_refik.webp'} className="max-h-[32rem] border-2 border-black"/>
+                                    <img src={'/w_refik.webp'} className="max-h-[38rem] border-2 border-black"/>
                                     <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
                                         <div className="text-center">
                                             <p className="whitespace-normal pt-4">
@@ -62,33 +64,38 @@ export default function Landing({ slugs, metas }) {
                             </div>
                         )}
                     </div>
-                </div>
-                <div className="w-full md:w-1/2 p-4 flex justify-center h-screen">
-                    <div>
-                        <div className="text-center pb-8">
-                            <p>Hi, I'm <a href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</a>. This is my corner of the internet.</p>
-                            <p>I spend most of my time working as the founder and CEO of <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.</p>
-                            <p>I spend the rest of my time doing things without considering their <a href={'https://en.wikipedia.org/wiki/Utility_monster'} className={'cursor-pointer underline'}>utility</a>.</p>
-                            <p>I've written about some of these things here:</p>
-                        </div>
-                        <div className=''>
-                            <ul className="text-center overflow-y-scroll">
-                                {sortedIndices.map((index) => (
-                                    <li
-                                        key={slugs[index]}
-                                        onMouseOver={() => handleMouseOver(metas[index].thumbnail, metas[index].description)}
-                                        className="cursor-pointer hover:underline mb-2"
-                                    >
-                                        <Link href={`/posts/${slugs[index]}`}>
-                                            <p className="block">{metas[index].title}</p>
-                                        </Link>
-                                    </li>
-                                ))
-                                .filter((slug, index) => {return metas[sortedIndices[index]].hidden === undefined || !metas[sortedIndices[index]].hidden})
-                                }
-                            </ul>
+
+                    <div className="min-h-[6vh] md:min-h-0 col-span-1"></div>
+
+                    <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
+                        <div>
+                            <div className="text-justify pb-8">
+                                <p>Hi, I'm <a href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</a>. This is my corner of the internet.
+                                I spend most of my time working as the founder and CEO of <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.
+                                I spend the rest of my time doing things without considering their <a href={'https://en.wikipedia.org/wiki/Utility_monster'} className={'cursor-pointer underline'}>utility</a>.
+                                I've written about some of these things here:</p>
+                            </div>
+                            <div className=''>
+                                <ul className="text-center overflow-y-scroll">
+                                    {sortedIndices.map((index) => (
+                                        <li
+                                            key={slugs[index]}
+                                            onMouseOver={() => handleMouseOver(metas[index].thumbnail, metas[index].description)}
+                                            className="cursor-pointer hover:underline mb-2"
+                                        >
+                                            <Link href={`/posts/${slugs[index]}`}>
+                                                <p className="block">{metas[index].title}</p>
+                                            </Link>
+                                        </li>
+                                    ))
+                                        .filter((slug, index) => {return metas[sortedIndices[index]].hidden === undefined || !metas[sortedIndices[index]].hidden})
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
+
+                    <div className="hidden md:block md:col-span-1"></div>
                 </div>
             </div>
         </div>
