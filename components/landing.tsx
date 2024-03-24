@@ -30,7 +30,7 @@ export default function Landing({ slugs, metas }) {
 
 
     return (
-        <div className="flex flex-col h-screen text-lg">
+        <div className="flex flex-col h-screen text-lg text-base">
             <div className="w-full mt-[10vh]">
                 <div className="grid grid-cols-1 md:grid-cols-11 gap-4 h-screen">
                     <div className="hidden md:block md:col-span-1"></div>
@@ -39,7 +39,7 @@ export default function Landing({ slugs, metas }) {
                         {currentDescription.length == 0 ? (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
-                                    <img src={'/w_refik.webp'} className="max-h-[38rem] border-2 border-black"/>
+                                    <img src={'/w_refik.webp'} className="max-h-[34rem] border-2 border-black"/>
                                     <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
                                         <div className="text-center">
                                             <p className="whitespace-normal pt-4">
@@ -52,7 +52,7 @@ export default function Landing({ slugs, metas }) {
                         ) : (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
-                                    <img src={'/w_refik.webp'} className="max-h-[38rem] border-2 border-black"/>
+                                    <img src={'/w_refik.webp'} className="max-h-[34rem] border-2 border-black"/>
                                     <div className="absolute overflow-hidden flex justify-center items-center left-1/2 transform -translate-x-1/2 w-full">
                                         <div className="text-center">
                                             <p className="whitespace-normal pt-4">
