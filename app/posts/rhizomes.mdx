@@ -1,5 +1,3 @@
-import LatexFormula from "../../components/latex";
-
 export const meta = {title: 'A Map of the Rhizome',
     description: '"Rhizome has no beginning or end; it is always in the middle, between things, interbeing, intermezzo" - D\&G',
     thumbnail: '',
@@ -96,20 +94,24 @@ As an analogy:
 
 ### The Link Function
 To understand the role of the link function, we first need to acquaint ourselves with the basics of the language of graph theory.
-We define a graph G as a collection of vertices V and edges E:
-<LatexFormula formula={'$ G = (V, E) $'}/>
+We define a graph $G$ as a collection of vertices $V$ and edges $E$:
+$$G = (V, E)$$
 In the case of a connectome, V is the set of brain regions and E is the set of pairwise connection strengths.
 A graph is often represented as an adjacency matrix A.
 Each cell of the matrix A contains the link function L between the ith and jth vertex:
-<LatexFormula formula={'$ a_{ij} = L(V_i, V_j)$'}/>
+$$a_{ij} = L(V_i, V_j)$$
 
 The link function is interpreted as the way in which we measure the strength of the connection between two vertices in our graph.
 One of the simplest link functions, the linear link function, associates each vertex with a d-dimensional vector, and considers their connection strength to be the dot product of their vectors.
-This link function leads to a very concise definition of the adjacency matrix.
-Let X be the matrix of vectors associated with a vertex set.
+This link function leads to a very concise definition of the adjacency matrix $A$.
+Let $X$ be the matrix of vectors associated with a vertex set.
 We have:
-<LatexFormula formula={'$ X \\in \\mathbb R^{(|V|, d)}$'}/>
-<LatexFormula formula={'$ A = XX^T$'}/>
+
+$$ X \in \mathbb R^{(|V|, d)}$$
+
+$$ A = XX^T $$
+
+Keep that $XX^T$ in mind. We will see it again later.
 
 
 ### Multiplicity in the Wild
@@ -204,14 +206,17 @@ As ATP puts it:
 ### Language Models
 As I mentioned in [AI Trades Space for Time](/posts/trading-space-for-time), the current wave of AI is driven by a paper titled *Attention is All You Need.*
 Attention is All You Need introduces the transformer architecture, which, as the title suggests, consists primarily of repeated applications of the self-attention operation:
-Letting X denote a sequence of tokens, we can define self-attention S as:
-<LatexFormula formula={'$Q = q_\\theta(X)$'}/>
-<LatexFormula formula={'$K = k_\\phi(X)$'}/>
-<LatexFormula formula={'$V = v_\\psi(X)$'}/>
-<LatexFormula formula={'$S = \\text{softmax}\\big(QK^T/\\sqrt d \\; \\big)V$'}/>
+Letting $X$ denote a sequence of tokens, we can define self-attention $S$ as:
+
+$$Q = q_\theta(X);$$
+$$K = k_\phi(X);$$
+$$V = v_\psi(X)$$
+
+$$S = \text{softmax}\big(QK^T/\sqrt d \; \big)V$$
+
 where q, k, and v denote feed forward neural networks with learnable parameters.
 
-The interaction between the Q and K looks *very* similar to the linear link function we saw earlier.
+That $QK^T$ looks *very* similar to the linear link function $XX^T$ we saw earlier.
 In fact, we can interpret the entire attention operation as a link function; and where there is a link function, there is a rhizome.
 
 But the transformer architecture is more than a single self-attention layer; it is a sequence of self attention layers.

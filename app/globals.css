@@ -11,6 +11,7 @@
 } */
 
 
+
 @layer utilities {
   .euclid-blue {
     color: #006895;
@@ -23,13 +24,14 @@
   }
 }
 
+html {
+  font-family: unset;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: #fdf6e8;
 }
-
-
-
 
 /**************************************************
 *
