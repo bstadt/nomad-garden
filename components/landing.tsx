@@ -1,6 +1,7 @@
 'use client'
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import DownTriangle from "@/components/down-triangle";
 
 export default function Landing({ slugs, metas }) {
     const [currentThumbnail, setCurrentThumbnail] = useState("");
@@ -8,6 +9,19 @@ export default function Landing({ slugs, metas }) {
     const handleMouseOver = (thumbnail, description) => {
         setCurrentThumbnail(thumbnail);
         setCurrentDescription(description);
+    };
+
+    const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+    const listRef = useRef(null);
+    const handleListScroll = () => {
+        const { scrollTop, scrollHeight, clientHeight } = listRef.current;
+        const atBottom = scrollTop + clientHeight === scrollHeight;
+        setIsScrolledToBottom(atBottom);
+    };
+
+    const scrollListDown = () => {
+        const { clientHeight } = listRef.current;
+        listRef.current.scrollBy({ top: clientHeight, behavior: 'smooth' });
     };
 
     const indices = [...Array(metas.length).keys()];
@@ -32,7 +46,7 @@ export default function Landing({ slugs, metas }) {
     return (
         <div className="flex flex-col h-screen text-lg text-base">
             <div className="w-full mt-[10vh]">
-                <div className="grid grid-cols-1 md:grid-cols-11 gap-4 h-screen">
+                <div className="grid grid-cols-1 md:grid-cols-11 gap-4 h-[calc(screen-mt-[10vh])]">
                     <div className="hidden md:block md:col-span-1"></div>
 
                     <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
@@ -76,7 +90,7 @@ export default function Landing({ slugs, metas }) {
                                 I've written about some of these things here:</p>
                             </div>
                             <div className=''>
-                                <ul className="text-center overflow-y-scroll">
+                                <ul className="text-center overflow-y-scroll mb-2 max-h-[calc(2.5rem*10)]" ref={listRef} onScroll={handleListScroll} >
                                     {sortedIndices.map((index) => (
                                         <li
                                             key={slugs[index]}
@@ -91,6 +105,9 @@ export default function Landing({ slugs, metas }) {
                                         .filter((slug, index) => {return metas[sortedIndices[index]].hidden === undefined || !metas[sortedIndices[index]].hidden})
                                     }
                                 </ul>
+                                {!isScrolledToBottom && <div className="w-10 h-6 relative left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 hover:cursor-pointer" onClick={scrollListDown}>
+                                   <DownTriangle/>
+                                </div>}
                             </div>
                         </div>
                     </div>
