@@ -105,9 +105,13 @@ export default function Landing({ slugs, metas }) {
                                         .filter((slug, index) => {return metas[sortedIndices[index]].hidden === undefined || !metas[sortedIndices[index]].hidden})
                                     }
                                 </ul>
-                                {!isScrolledToBottom && <div className="w-10 h-6 relative left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 hover:cursor-pointer" onClick={scrollListDown}>
-                                   <DownTriangle/>
-                                </div>}
+                                <div className="w-10 h-6 relative left-1/2 bottom-0 pb-10 transform -translate-x-1/2 translate-y-1/2 hover:cursor-pointer" >
+                                {!isScrolledToBottom &&
+                                   <div onClick={scrollListDown}>
+                                    <DownTriangle/>
+                                   </div>
+                                }
+                                </div>
                             </div>
                         </div>
                     </div>
