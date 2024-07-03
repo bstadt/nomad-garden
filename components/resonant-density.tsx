@@ -8,6 +8,7 @@ dictionary['rigid'] = 'R IH JH IH D';
 dictionary['positing'] = 'P AA Z IH T IH NG';
 dictionary['logits'] = 'L AA JH IH S';
 dictionary['neological'] = 'N IY OW L AA JH IH K AH L';
+dictionary['dereference'] = 'D IH R EH F ER AH N S';
 
 
 const WordHighlight = ({ words, adjacencyMatrix }) => {
