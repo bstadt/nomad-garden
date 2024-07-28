@@ -85,7 +85,7 @@ export default function Landing({ slugs, metas }) {
                         <div>
                             <div className="text-justify pb-8">
                                 <p>Hi, I'm <a href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</a>. This is my corner of the internet.
-                                I spend most of my time working as an organ of of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.
+                                I spend most of my time working as an organ of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.
                                 I spend the rest of my time doing things without considering their <a href={'https://en.wikipedia.org/wiki/Utility_monster'} className={'cursor-pointer underline'}>utility</a>.
                                 I've written about some of these things here:</p>
                             </div>
