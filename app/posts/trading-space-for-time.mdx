@@ -5,13 +5,13 @@ export const meta = {title: 'AI Trades Space for Time',
     thumbnail: '',
     date: 'Oct 1, 2023',
     priority: 0.2,
-    hidden: true,
+    hidden: false,
 }
 
 # AI Trades Space for Time
 Recently, I was on a walk with my friend and frequent collaborator [Hayden Helm](https://scholar.google.com/citations?user=zEzJrqsAAAAJ&hl=en).
 He asked me if I could sum up the fundamental innovation behind the current wave of AI in one sentence.
-After thinking for a moment, I replied:
+After thinking for a while, I replied:
 > AI makes it easy for programmers to trade space for time.
 
 In this post, I am going to justify this answer by answering two sub-questions:
@@ -57,7 +57,7 @@ To get a feel for working with thread complexity, let's consider the task of mul
 Under the RAM model, MULTIPLY-N takes O(N) memory, O(1) threads, and achieves O(N) time.
 
 Under the GPU model, we can use a parallel [divide and conquer](https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm) algorithm to compute the products of several pairs of numbers at once.
-For example, to compute a\*b\*c\*d using the GPU model, we would first compute (a\*b)=y and (c\*d)=z in parallel, and then finish by computing y*z.
+For example, to compute $a*b*c*d$ using the GPU model, we would first compute $(a*b)=y$ and $(c*d)=z$ in parallel, and then finish by computing $y*z$.
 The GPU implementation of MULTIPLY-N takes O(N) memory, O(N) threads, and achieves O(log(N)) time.
 In other words, there seems to be a thread-memory-time tradeoff in the GPU model, just like the space-time tradeoff in the RAM model.
 Moreover, the GPU implementation of MULTIPLY-N achieves an <em>exponential</em> speedup when compared to its RAM conterpart.
@@ -130,7 +130,6 @@ GPT-3 makes it clear that modern AI leverages a tradeoff that pays increased thr
 However, I want to go one step further, and claim that thread and memory consumption are both instances of increased physical space consumption.
 The argument here is straightforward: if a programmer wants to use more threads and memory for their program, they need to use more physical space for the physical machines that will run the computation.
 In this sense, modern AI is utilizing a physical space-time tradeoff to enable massive computations to be run in a short amount of wall time.
-
 
 # Why Should This Innovation Be Considered Fundamental?
 ## What Does it Mean to be Fundamental?
