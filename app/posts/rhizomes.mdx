@@ -95,10 +95,12 @@ As an analogy:
 ### The Link Function
 To understand the role of the link function, we first need to acquaint ourselves with the basics of the language of graph theory.
 We define a graph $G$ as a collection of vertices $V$ and edges $E$:
+
 $$G = (V, E)$$
-In the case of a connectome, V is the set of brain regions and E is the set of pairwise connection strengths.
-A graph is often represented as an adjacency matrix A.
-Each cell of the matrix A contains the link function L between the ith and jth vertex:
+
+In the case of a connectome, $V$ is the set of brain regions and $E$ is the set of pairwise connection strengths.
+A graph is often represented as an adjacency matrix $A$.
+Each cell of the matrix $A$ contains the link function $L$ between the ith and jth vertex:
 $$a_{ij} = L(V_i, V_j)$$
 
 The link function is interpreted as the way in which we measure the strength of the connection between two vertices in our graph.

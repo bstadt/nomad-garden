@@ -112,7 +112,7 @@ Aidan Gomez, one of the authors on the seminal [transformer paper](https://arxiv
 - Aidan Gomez on the Transformer
 
 While there are no public figures regarding the scale of GPT-4, the current most capable language model, some intelligent estimates for its predecessor exist.
-In a [blog post](https://lambdalabs.com/blog/demystifying-gpt-3), Lambda Labs estimates the size and extent of parallelism present in GPT3:
+In a [blog post](https://lambdalabs.com/blog/demystifying-gpt-3), Lambda Labs estimates the size and extent of parallelism present in GPT-3:
 
 > The GPT-3 175B model required 3.14E23 FLOPS of computing for training.
 > Even at theoretical 28 TFLOPS for V100 and lowest 3 year reserved cloud pricing we could find, this will take **355 GPU-years**...
@@ -149,13 +149,6 @@ Since Einstein, we have known that space and time together make up spacetime, th
 > It is composed of individual events, each of which is described by four numbers: three space coordinates x, y, z, and a time value t."
 
 - [Relativity](https://www.amazon.com/Relativity-Special-General-Theory-Physics/dp/048641714X) by Albert Einstein
-
-Moreover, Einstein's spacetime comes equipped with an intrinsic tradeoff between space and time.
-Concretely, the [spacetime volume](https://web.mit.edu/edbert/GR/gr1.pdf) between two points is defined as:
-<LatexFormula formula={'$ v = \\sqrt{-g}(\\delta x)(\\delta y)(\\delta z)(\\delta t)$'}/>
-Where t is time, x, y, and z are physical coordinates, and g is the determinant of the [spacetime metric tensor](https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)).
-The critical thing to notice about this formula is that for a fixed spacetime volume, we can decrease the time component of the volume by increasing the space components of the volume.
-But how exactly does this physical space-time tradeoff relate to our computational thread-memory-time tradeoff?
 
 ## Computation as Physical State Transformation
 To precisely understand the relationship between computation and spacetime volumes, we need a slightly more precise definition of physical computation.
