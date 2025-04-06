@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { Matrix4, Quaternion, Euler, Vector3 } from 'three';
 
 interface AcrolangVisProps {
   width?: number;
@@ -121,9 +122,9 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [theta, setTheta] = useState(0); // Y-axis rotation
-  const [phi, setPhi] = useState(0);     // X-axis rotation
-  const [psi, setPsi] = useState(0);     // Z-axis rotation 
+  
+  // Replace individual rotation states with a single transformation matrix
+  const [currentTransform, setCurrentTransform] = useState(new Matrix4().identity());
   
   // Replace individual inputs with a sequence of rotation steps
   const [rotationSteps, setRotationSteps] = useState<RotationStep[]>([
@@ -268,21 +269,15 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
     }
   };
 
-  // Apply rotations to the coordinate system
+  // Apply transformation matrix to the coordinate system
   useEffect(() => {
     if (sceneRef.current.coordinateSystem) {
-      // Reset rotation
-      sceneRef.current.coordinateSystem.rotation.set(0, 0, 0);
-      
-      // Apply rotations in the correct order
-      // First rotate around Y (theta)
-      sceneRef.current.coordinateSystem.rotateY(THREE.MathUtils.degToRad(theta));
-      // Then rotate around X (phi)
-      sceneRef.current.coordinateSystem.rotateX(THREE.MathUtils.degToRad(phi));
-      // Finally rotate around Z (psi) - note the negative sign for opposite of right-hand rule
-      sceneRef.current.coordinateSystem.rotateZ(THREE.MathUtils.degToRad(-psi));
+      // Apply the current transformation matrix directly to the coordinate system
+      sceneRef.current.coordinateSystem.matrix.copy(currentTransform);
+      sceneRef.current.coordinateSystem.matrixAutoUpdate = false;
+      sceneRef.current.coordinateSystem.matrixWorldNeedsUpdate = true;
     }
-  }, [theta, phi, psi]);
+  }, [currentTransform]);
 
   // Update a specific rotation step
   const handleStepChange = (id: string, field: 'theta' | 'phi' | 'psi' | 'thetaInput' | 'phiInput' | 'psiInput', value: number | string) => {
@@ -307,6 +302,29 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
     setRotationSteps(steps => steps.filter(step => step.id !== id));
   };
 
+  // Create a transformation matrix from Euler angles (in degrees)
+  const createTransformMatrix = (thetaDeg: number, phiDeg: number, psiDeg: number): Matrix4 => {
+    // Convert degrees to radians
+    const thetaRad = THREE.MathUtils.degToRad(thetaDeg);
+    const phiRad = THREE.MathUtils.degToRad(phiDeg);
+    const psiRad = THREE.MathUtils.degToRad(-psiDeg); // Negative for Z to match convention
+    
+    // Create rotation matrices for each axis
+    const rotY = new Matrix4().makeRotationY(thetaRad);
+    const rotX = new Matrix4().makeRotationX(phiRad);
+    const rotZ = new Matrix4().makeRotationZ(psiRad);
+    
+    // Create a new matrix for the combined transformation
+    const transformMatrix = new Matrix4().identity();
+    
+    // Apply rotations in the correct order: Y (theta) -> X (phi) -> Z (psi)
+    transformMatrix.multiply(rotY);
+    transformMatrix.multiply(rotX);
+    transformMatrix.multiply(rotZ);
+    
+    return transformMatrix;
+  };
+
   // Animation function for sequence of rotations
   const animateRotationSequence = () => {
     if (rotationSteps.length === 0 || isAnimating) return;
@@ -315,46 +333,47 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
     setCurrentStepIndex(0);
 
     // Reset the coordinate system to the default position at the beginning of animation
-    setTheta(0);
-    setPhi(0);
-    setPsi(0);
+    setCurrentTransform(new Matrix4().identity());
     
-    // Start the animation sequence
+    // Start the animation sequence after a short delay
     setTimeout(() => {
-      // Start fresh with the first step
+      // Start with the identity matrix
+      const startMatrix = new Matrix4().identity();
+      
+      // Get the first step
       const firstStep = rotationSteps[0];
       
-      // For the first step, animate directly to its values
-      animateToRotation(0, 0, 0, firstStep.theta, firstStep.phi, firstStep.psi, 0);
+      // Create the target transformation matrix for the first step
+      const targetMatrix = createTransformMatrix(
+        firstStep.theta, 
+        firstStep.phi, 
+        firstStep.psi
+      );
+      
+      // Animate to the first transformation
+      animateTransformation(startMatrix, targetMatrix, 0);
     }, 500);
   };
   
-  // New function to animate to a specific rotation
-  const animateToRotation = (
-    startTheta: number, 
-    startPhi: number, 
-    startPsi: number, 
-    targetTheta: number, 
-    targetPhi: number, 
-    targetPsi: number, 
+  // New function to animate between transformation matrices
+  const animateTransformation = (
+    startMatrix: Matrix4,
+    targetMatrix: Matrix4,
     currentIndex: number
   ) => {
     const duration = 1000; // Animation duration in ms
     const startTime = Date.now();
     
-    // Ensure we're taking the shortest path for each rotation
-    // by normalizing the angle differences
-    const normalizeAngleDifference = (start: number, target: number): number => {
-      let diff = target - start;
-      // Ensure we rotate the shortest way (never more than 180 degrees)
-      while (diff > 180) diff -= 360;
-      while (diff < -180) diff += 360;
-      return diff;
-    };
+    // Extract position, rotation quaternion, and scale from matrices
+    const startPosition = new Vector3();
+    const startQuaternion = new Quaternion();
+    const startScale = new Vector3();
+    startMatrix.decompose(startPosition, startQuaternion, startScale);
     
-    const thetaDiff = normalizeAngleDifference(startTheta, targetTheta);
-    const phiDiff = normalizeAngleDifference(startPhi, targetPhi);
-    const psiDiff = normalizeAngleDifference(startPsi, targetPsi);
+    const targetPosition = new Vector3();
+    const targetQuaternion = new Quaternion();
+    const targetScale = new Vector3();
+    targetMatrix.decompose(targetPosition, targetQuaternion, targetScale);
     
     const animate = () => {
       const elapsedTime = Date.now() - startTime;
@@ -363,14 +382,20 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
       // Use easing function for smooth animation
       const easedProgress = easeInOutCubic(progress);
       
-      // Interpolate between start and target values using the normalized differences
-      const newTheta = startTheta + thetaDiff * easedProgress;
-      const newPhi = startPhi + phiDiff * easedProgress;
-      const newPsi = startPsi + psiDiff * easedProgress;
+      // Interpolate between quaternions for smooth rotation
+      const currentPosition = new Vector3().lerpVectors(startPosition, targetPosition, easedProgress);
+      const currentQuaternion = new Quaternion().slerpQuaternions(startQuaternion, targetQuaternion, easedProgress);
+      const currentScale = new Vector3().lerpVectors(startScale, targetScale, easedProgress);
       
-      setTheta(newTheta);
-      setPhi(newPhi);
-      setPsi(newPsi);
+      // Create the current transformation matrix
+      const currentMatrix = new Matrix4().compose(
+        currentPosition,
+        currentQuaternion,
+        currentScale
+      );
+      
+      // Apply the current transformation
+      setCurrentTransform(currentMatrix);
       
       if (progress < 1) {
         requestAnimationFrame(animate);
@@ -385,17 +410,20 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
             // Get the next step
             const nextStep = rotationSteps[nextIndex];
             
-            // For sequential rotations, we want to apply the next rotation directly
-            // rather than calculating a combined matrix, which can lead to unexpected results
-            animateToRotation(
-              newTheta, 
-              newPhi, 
-              newPsi, 
-              newTheta + nextStep.theta, 
-              newPhi + nextStep.phi, 
-              newPsi + nextStep.psi, 
-              nextIndex
+            // For sequential rotations, we need to create a new transformation
+            // that represents the incremental change in the local frame
+            const incrementalMatrix = createTransformMatrix(
+              nextStep.theta,
+              nextStep.phi,
+              nextStep.psi
             );
+            
+            // Apply the incremental transformation to the current matrix
+            // This properly handles local frame transformations
+            const newTargetMatrix = new Matrix4().multiplyMatrices(currentMatrix, incrementalMatrix);
+            
+            // Animate to the new target transformation
+            animateTransformation(currentMatrix, newTargetMatrix, nextIndex);
           }, 500);
         } else {
           // Animation sequence is complete
@@ -426,6 +454,24 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
       <div className="rotation-controls" style={{ marginTop: '20px', maxWidth: '500px' }}>
         <h3>Rotation Sequence</h3>
         
+        <div className="animate-button" style={{ marginBottom: '15px' }}>
+          <button 
+            onClick={animateRotationSequence} 
+            disabled={isAnimating}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: isAnimating ? '#cccccc' : '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: isAnimating ? 'not-allowed' : 'pointer',
+              width: '100%'
+            }}
+          >
+            {isAnimating ? `Animating Step ${currentStepIndex + 1}/${rotationSteps.length}` : 'Animate Sequence'}
+          </button>
+        </div>
+        
         <div className="rotation-steps">
           {rotationSteps.map((step, index) => (
             <RotationInputControls
@@ -439,7 +485,7 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
           ))}
         </div>
         
-        <div className="controls-buttons" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+        <div className="add-step-button" style={{ marginTop: '15px' }}>
           <button 
             onClick={addRotationStep} 
             disabled={isAnimating}
@@ -449,25 +495,11 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
               color: 'white',
               border: 'none',
               borderRadius: '4px',
-              cursor: isAnimating ? 'not-allowed' : 'pointer'
+              cursor: isAnimating ? 'not-allowed' : 'pointer',
+              width: '100%'
             }}
           >
             Add Step
-          </button>
-          
-          <button 
-            onClick={animateRotationSequence} 
-            disabled={isAnimating}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: isAnimating ? '#cccccc' : '#4CAF50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: isAnimating ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {isAnimating ? `Animating Step ${currentStepIndex + 1}/${rotationSteps.length}` : 'Animate Sequence'}
           </button>
         </div>
       </div>
