@@ -34,6 +34,7 @@
     "remark-math": "^5.1.1",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
+    "three": "^0.175.0",
     "topojson-client": "^3.1.0",
     "typescript": "5.1.6"
   }
