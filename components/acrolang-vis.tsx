@@ -17,12 +17,11 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [theta, setTheta] = useState(0); // Y-axis rotation
   const [phi, setPhi] = useState(0);     // X-axis rotation
-  const [psi, setPsi] = useState(0);     // Z-axis rotation (opposite of right-hand rule)
+  const [psi, setPsi] = useState(0);     // Z-axis rotation 
   const [isAnimating, setIsAnimating] = useState(false);
   
   // Reference to store scene objects for animation
   const sceneRef = useRef<{
-    axesHelper?: THREE.AxesHelper;
     coordinateSystem?: THREE.Group;
   }>({});
 
@@ -51,10 +50,6 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
 
-    // Create coordinate system
-    const axesHelper = new THREE.AxesHelper(2);
-    scene.add(axesHelper);
-    
     // Create a group for the coordinate system that will be rotated
     const coordinateSystem = new THREE.Group();
     
@@ -67,19 +62,18 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
     coordinateSystem.add(yAxis);
     
     // Z-axis (blue)
-    const zAxis = createAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 1), 0x0000ff);
+    const zAxis = createAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1), 0x0000ff);
     coordinateSystem.add(zAxis);
     
     // Add coordinate labels
     addCoordinateLabel(coordinateSystem, 'X', new THREE.Vector3(1.2, 0, 0), 0xff0000);
     addCoordinateLabel(coordinateSystem, 'Y', new THREE.Vector3(0, 1.2, 0), 0x00ff00);
-    addCoordinateLabel(coordinateSystem, 'Z', new THREE.Vector3(0, 0, 1.2), 0x0000ff);
+    addCoordinateLabel(coordinateSystem, 'Z', new THREE.Vector3(0, 0, -1.2), 0x0000ff);
     
     scene.add(coordinateSystem);
     
     // Store references for animation
     sceneRef.current = {
-      axesHelper,
       coordinateSystem
     };
 
