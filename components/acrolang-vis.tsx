@@ -136,7 +136,86 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
   // Reference to store scene objects for animation
   const sceneRef = useRef<{
     coordinateSystem?: THREE.Group;
+    humanFigure?: THREE.Group;
   }>({});
+
+  // Function to create a human figure (Vitruvian Man style)
+  const createHumanFigure = () => {
+    const humanGroup = new THREE.Group();
+    
+    // Use a more sophisticated approach with merged geometries
+    const bodyMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0xd2b48c,  // Lighter tan color
+      shininess: 50
+    });
+    
+    // Head
+    const head = new THREE.Mesh(
+      new THREE.SphereGeometry(0.2, 32, 32),
+      bodyMaterial
+    );
+    head.position.set(0, 0.7, 0);
+    humanGroup.add(head);
+    
+    // Torso
+    const torso = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.25, 0.2, 0.6, 16),
+      bodyMaterial
+    );
+    torso.position.set(0, 0.2, 0);
+    humanGroup.add(torso);
+    
+    // Arms
+    const createLimb = (radius, length, material) => {
+      const geometry = new THREE.CylinderGeometry(radius, radius, length, 16);
+      // Rotate the cylinder so its length runs along the x-axis
+      geometry.rotateZ(Math.PI / 2);
+      return new THREE.Mesh(geometry, material);
+    };
+    
+    // Right arm
+    const rightArm = createLimb(0.08, 0.7, bodyMaterial);
+    rightArm.position.set(0.4, 0.3, 0);
+    humanGroup.add(rightArm);
+    
+    // Left arm
+    const leftArm = createLimb(0.08, 0.7, bodyMaterial);
+    leftArm.position.set(-0.4, 0.3, 0);
+    humanGroup.add(leftArm);
+    
+    // Right leg
+    const rightLeg = createLimb(0.1, 0.8, bodyMaterial);
+    rightLeg.rotateZ(Math.PI / 2); // Rotate back to vertical
+    rightLeg.position.set(0.15, -0.3, 0);
+    humanGroup.add(rightLeg);
+    
+    // Left leg
+    const leftLeg = createLimb(0.1, 0.8, bodyMaterial);
+    leftLeg.rotateZ(Math.PI / 2); // Rotate back to vertical
+    leftLeg.position.set(-0.15, -0.3, 0);
+    humanGroup.add(leftLeg);
+    
+    // Add simple facial features
+    const eyeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    
+    // Right eye - moved to the back of the face (negative Z)
+    const rightEye = new THREE.Mesh(
+      new THREE.SphereGeometry(0.03, 16, 16),
+      eyeMaterial
+    );
+    rightEye.position.set(0.07, 0.75, -0.15);
+    humanGroup.add(rightEye);
+    
+    // Left eye - moved to the back of the face (negative Z)
+    const leftEye = new THREE.Mesh(
+      new THREE.SphereGeometry(0.03, 16, 16),
+      eyeMaterial
+    );
+    leftEye.position.set(-0.07, 0.75, -0.15);
+    humanGroup.add(leftEye);
+    
+    return humanGroup;
+  };
 
   useEffect(() => {
     // Scene setup
@@ -183,15 +262,22 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
     addCoordinateLabel(coordinateSystem, 'Y', new THREE.Vector3(0, 1.2, 0), 0x00ff00);
     addCoordinateLabel(coordinateSystem, 'Z', new THREE.Vector3(0, 0, -1.2), 0x0000ff);
     
+    // Create and add human figure
+    const humanFigure = createHumanFigure();
+    // Move the human figure down slightly so Z-axis comes out of the chest
+    humanFigure.position.set(0, -0.3, 0);
+    coordinateSystem.add(humanFigure);
+    
     scene.add(coordinateSystem);
     
     // Store references for animation
     sceneRef.current = {
-      coordinateSystem
+      coordinateSystem,
+      humanFigure
     };
 
     // Add lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
     const pointLight = new THREE.PointLight(0xffffff, 1);
