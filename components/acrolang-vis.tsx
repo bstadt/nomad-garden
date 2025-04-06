@@ -18,6 +18,10 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
   const [theta, setTheta] = useState(0); // Y-axis rotation
   const [phi, setPhi] = useState(0);     // X-axis rotation
   const [psi, setPsi] = useState(0);     // Z-axis rotation 
+  const [thetaInput, setThetaInput] = useState(0); // Y-axis rotation
+  const [phiInput, setPhiInput] = useState(0);     // X-axis rotation
+  const [psiInput, setPsiInput] = useState(0);     // Z-axis rotation 
+
   const [isAnimating, setIsAnimating] = useState(false);
   
   // Reference to store scene objects for animation
@@ -229,48 +233,60 @@ const AcrolangVis: React.FC<AcrolangVisProps> = ({
       {!isLoaded && <div className="loading">Loading 3D scene...</div>}
       
       <div className="rotation-controls" style={{ marginTop: '20px' }}>
-        <div className="slider-container">
+        <div className="input-container" style={{ marginBottom: '10px' }}>
           <label>
-            θ (Y-axis rotation): {theta.toFixed(1)}°
+            θ (Y-axis rotation):
             <input 
-              type="range" 
-              min="-180" 
-              max="180" 
-              value={theta} 
-              onChange={(e) => setTheta(parseFloat(e.target.value))}
+              type="text" 
+              value={thetaInput} 
+              onChange={(e) => {
+                const value = e.target.value;
+                setThetaInput(value);
+                const parsed = parseFloat(value);
+                setTheta(isNaN(parsed) ? 0 : parsed);
+              }}
               disabled={isAnimating}
-              style={{ width: '100%' }}
+              style={{ marginLeft: '10px', width: '60px' }}
             />
+            °
           </label>
         </div>
         
-        <div className="slider-container">
+        <div className="input-container" style={{ marginBottom: '10px' }}>
           <label>
-            φ (X-axis rotation): {phi.toFixed(1)}°
+            φ (X-axis rotation):
             <input 
-              type="range" 
-              min="-180" 
-              max="180" 
-              value={phi} 
-              onChange={(e) => setPhi(parseFloat(e.target.value))}
+              type="text" 
+              value={phiInput} 
+              onChange={(e) => {
+                const value = e.target.value;
+                setPhiInput(value);
+                const parsed = parseFloat(value);
+                setPhi(isNaN(parsed) ? 0 : parsed);
+              }}
               disabled={isAnimating}
-              style={{ width: '100%' }}
+              style={{ marginLeft: '10px', width: '60px' }}
             />
+            °
           </label>
         </div>
         
-        <div className="slider-container">
+        <div className="input-container" style={{ marginBottom: '10px' }}>
           <label>
-            ψ (Z-axis rotation): {psi.toFixed(1)}°
+            ψ (Z-axis rotation):
             <input 
-              type="range" 
-              min="-180" 
-              max="180" 
-              value={psi} 
-              onChange={(e) => setPsi(parseFloat(e.target.value))}
+              type="text" 
+              value={psiInput} 
+              onChange={(e) => {
+                const value = e.target.value;
+                setPsiInput(value);
+                const parsed = parseFloat(value);
+                setPsi(isNaN(parsed) ? 0 : parsed);
+              }}
               disabled={isAnimating}
-              style={{ width: '100%' }}
+              style={{ marginLeft: '10px', width: '60px' }}
             />
+            °
           </label>
         </div>
         
