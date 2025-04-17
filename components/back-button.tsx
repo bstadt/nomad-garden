@@ -1,9 +1,9 @@
-import Link from 'next/link';
+import ExitLink from './exit-link';
 
 export default function BackButton() {
     return (
         <div className="flex justify-center w-full">
-            <Link href="/">
+            <ExitLink href="/">
                 <div className="flex items-center rounded-lg shadow-md hover:shadow-lg transition-colors duration-300 border border-black py-2 px-3 mx-auto">
                     <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
 
@@ -14,7 +14,7 @@ export default function BackButton() {
                         <rect x="14" y="18" width="4" height="4" fill="#000" />
                     </svg>
                 </div>
-            </Link>
+            </ExitLink>
         </div>
     );
-};
+}

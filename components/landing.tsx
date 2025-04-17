@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import ExitLink from "@/components/exit-link";
 import DownTriangle from "@/components/down-triangle";
 
 export default function Landing({ slugs, metas }) {
@@ -105,9 +105,9 @@ export default function Landing({ slugs, metas }) {
                                             onMouseOver={() => handleMouseOver(metas[index].thumbnail, metas[index].description)}
                                             className="cursor-pointer hover:underline mb-2"
                                         >
-                                            <Link href={`/posts/${slugs[index]}`}>
+                                            <ExitLink href={`/posts/${slugs[index]}`}>  
                                                 <p className="block">{metas[index].title}</p>
-                                            </Link>
+                                            </ExitLink>
                                         </li>
                                     ))
                                         .filter((slug, index) => {return metas[sortedIndices[index]].hidden === undefined || !metas[sortedIndices[index]].hidden})
