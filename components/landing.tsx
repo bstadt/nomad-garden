@@ -13,6 +13,9 @@ export default function Landing({ slugs, metas }) {
 
     const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
     const listRef = useRef(null);
+    // Trigger fade-in float-up animations on mount
+    const [loaded, setLoaded] = useState(false);
+    useEffect(() => { setLoaded(true); }, []);
     const handleListScroll = () => {
         const { scrollTop, scrollHeight, clientHeight } = listRef.current;
         const atBottom = scrollTop + clientHeight === scrollHeight;
@@ -49,7 +52,7 @@ export default function Landing({ slugs, metas }) {
                 <div className="grid grid-cols-1 md:grid-cols-11 gap-4 h-[calc(screen-mt-[10vh])]">
                     <div className="hidden md:block md:col-span-1"></div>
 
-                    <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
+                    <div className={`col-span-1 md:col-span-4 p-4 flex justify-center transition-all duration-700 ease-out ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                         {currentDescription.length == 0 ? (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
@@ -81,7 +84,7 @@ export default function Landing({ slugs, metas }) {
 
                     <div className="min-h-[6vh] md:min-h-0 col-span-1"></div>
 
-                    <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
+                    <div className={`col-span-1 md:col-span-4 p-4 flex justify-center transition-all duration-700 ease-out delay-150 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                         <div>
                             <div className="text-justify pb-8">
                                 <p>Hi, I'm <a href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</a>. This is my corner of the internet.
