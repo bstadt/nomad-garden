@@ -86,7 +86,7 @@ export default function Landing({ slugs, metas }) {
 
                     <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
                         <div>
-                            <div className={`text-justify pb-8 transform transition-all duration-700 ease-out delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                            <div className={`text-justify pb-8 transform transition-all duration-700 ease-out delay-150 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                                 <p>Hi, I'm <a href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</a>. This is my corner of the internet.
                                 I spend most of my time working as an <a href={'https://en.wikipedia.org/wiki/Body_without_organs'} className={'cursor-pointer underline'}> organ</a> of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.
                                 I spend the rest of my time doing things without considering their <a href={'https://en.wikipedia.org/wiki/Utility_monster'} className={'cursor-pointer underline'}>utility</a>.
@@ -97,7 +97,7 @@ export default function Landing({ slugs, metas }) {
                                 <ul
                                     ref={listRef}
                                     onScroll={handleListScroll}
-                                    className={`text-center overflow-y-scroll mb-2 md:max-h-[calc(2.5rem*9)] transform transition-all duration-700 ease-out delay-500 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                    className={`text-center overflow-y-scroll mb-2 md:max-h-[calc(2.5rem*9)] transform transition-all duration-700 ease-out delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                                 >
                                     {sortedIndices.map((index) => (
                                         <li
@@ -114,7 +114,7 @@ export default function Landing({ slugs, metas }) {
                                     }
                                 </ul>
                                 <div
-                                    className={`hidden md:block w-8 h-6 relative left-1/2 bottom-0 pb-10 transform -translate-x-1/2 hover:cursor-pointer transition-all duration-700 ease-out delay-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                    className={`hidden md:block w-8 h-6 relative left-1/2 bottom-0 pb-10 transform -translate-x-1/2 hover:cursor-pointer transition-all duration-700 ease-out delay-500 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                                 >
                                     {!isScrolledToBottom && (
                                         <div onClick={scrollListDown}>
