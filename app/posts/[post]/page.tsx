@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { Metadata, ResolvingMetadata } from 'next';
-import BackButton from "@/components/back-button";
+import FadeInPost from "@/components/fade-in-post";
 
 export default async function Page({ params }: { params: { post: string } }) {
     const Content = await getPostData(params.post);
@@ -9,17 +9,15 @@ export default async function Page({ params }: { params: { post: string } }) {
         <div className="container mx-auto px-4 py-8">
             <meta property="og:title" content={meta.title} />
             <meta property="og:image" content={meta.thumbnail} />
-            {meta.unstyled !== undefined && meta.unstyled ? (
-                <div>
-                    <BackButton/>
-                    <Content/>
-                </div>
-            ):(
+            <FadeInPost>
+              {meta.unstyled ? (
+                <Content />
+              ) : (
                 <div className="max-w-2xl mx-auto">
-                    <BackButton/>
-                    <Content/>
+                  <Content />
                 </div>
-            )}
+              )}
+            </FadeInPost>
         </div>
     );
 }

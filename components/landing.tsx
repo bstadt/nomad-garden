@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import ExitLink from "@/components/exit-link";
 import DownTriangle from "@/components/down-triangle";
 
 export default function Landing({ slugs, metas }) {
@@ -13,6 +13,9 @@ export default function Landing({ slugs, metas }) {
 
     const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
     const listRef = useRef(null);
+    // Trigger fade-in float-up animations on mount
+    const [loaded, setLoaded] = useState(false);
+    useEffect(() => { setLoaded(true); }, []);
     const handleListScroll = () => {
         const { scrollTop, scrollHeight, clientHeight } = listRef.current;
         const atBottom = scrollTop + clientHeight === scrollHeight;
@@ -49,7 +52,7 @@ export default function Landing({ slugs, metas }) {
                 <div className="grid grid-cols-1 md:grid-cols-11 gap-4 h-[calc(screen-mt-[10vh])]">
                     <div className="hidden md:block md:col-span-1"></div>
 
-                    <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
+                    <div className={`col-span-1 md:col-span-4 p-4 flex justify-center transition-all duration-700 ease-out delay-0 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                         {currentDescription.length == 0 ? (
                             <div className="flex flex-col items-center">
                                 <div className="w-full relative">
@@ -83,35 +86,42 @@ export default function Landing({ slugs, metas }) {
 
                     <div className="col-span-1 md:col-span-4 p-4 flex justify-center">
                         <div>
-                            <div className="text-justify pb-8">
-                                <p>Hi, I'm <a href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</a>. This is my corner of the internet.
-                                I spend most of my time working as an <a href={'https://en.wikipedia.org/wiki/Body_without_organs'} className={'cursor-pointer underline'}> organ</a> of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.
+                            <div className={`text-justify pb-8 transform transition-all duration-700 ease-out delay-150 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                                <p>Hi, I'm <ExitLink href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</ExitLink>. This is my corner of the internet.
+                                I spend most of my time working as an <a href={'https://en.wikipedia.org/wiki/Body_without_organs'} className={'cursor-pointer underline'}> organ</a> of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>. 
+                                I also spend some time investing in early stage companies as a Partner at <a href={'https://www.factorialcap.com/'} className={'cursor-pointer underline'}>Factorial Capital</a>.
                                 I spend the rest of my time doing things without considering their <a href={'https://en.wikipedia.org/wiki/Utility_monster'} className={'cursor-pointer underline'}>utility</a>.
                                 I've written about some of these things below.
-                                I've also recently started curating digital content, which you can find <a href={'https://www.cosmos.so/gnomad'} className={'cursor-pointer underline'}>here</a>.</p>
+                                </p>
                             </div>
                             <div className=''>
-                                <ul className="text-center overflow-y-scroll mb-2 md:max-h-[calc(2.5rem*9)]" ref={listRef} onScroll={handleListScroll} >
+                                <ul
+                                    ref={listRef}
+                                    onScroll={handleListScroll}
+                                    className={`text-center overflow-y-scroll mb-2 md:max-h-[calc(2.5rem*9)] transform transition-all duration-700 ease-out delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                >
                                     {sortedIndices.map((index) => (
                                         <li
                                             key={slugs[index]}
                                             onMouseOver={() => handleMouseOver(metas[index].thumbnail, metas[index].description)}
                                             className="cursor-pointer hover:underline mb-2"
                                         >
-                                            <Link href={`/posts/${slugs[index]}`}>
+                                            <ExitLink href={`/posts/${slugs[index]}`}>  
                                                 <p className="block">{metas[index].title}</p>
-                                            </Link>
+                                            </ExitLink>
                                         </li>
                                     ))
                                         .filter((slug, index) => {return metas[sortedIndices[index]].hidden === undefined || !metas[sortedIndices[index]].hidden})
                                     }
                                 </ul>
-                                <div className="hidden md:block w-8 h-6 relative left-1/2 bottom-0 pb-10 transform -translate-x-1/2 hover:cursor-pointer" >
-                                {!isScrolledToBottom &&
-                                   <div onClick={scrollListDown}>
-                                    <DownTriangle/>
-                                   </div>
-                                }
+                                <div
+                                    className={`hidden md:block w-8 h-6 relative left-1/2 bottom-0 pb-10 transform -translate-x-1/2 hover:cursor-pointer transition-all duration-700 ease-out delay-500 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                >
+                                    {!isScrolledToBottom && (
+                                        <div onClick={scrollListDown}>
+                                            <DownTriangle />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
