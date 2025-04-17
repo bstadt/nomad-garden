@@ -88,7 +88,8 @@ export default function Landing({ slugs, metas }) {
                         <div>
                             <div className={`text-justify pb-8 transform transition-all duration-700 ease-out delay-150 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                                 <p>Hi, I'm <ExitLink href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</ExitLink>. This is my corner of the internet.
-                                I spend most of my time working as an <a href={'https://en.wikipedia.org/wiki/Body_without_organs'} className={'cursor-pointer underline'}> organ</a> of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>.
+                                I spend most of my time working as an <a href={'https://en.wikipedia.org/wiki/Body_without_organs'} className={'cursor-pointer underline'}> organ</a> of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>. 
+                                I also spend some time investing in early stage companies as a Partner at <a href={'https://www.factorialcap.com/'} className={'cursor-pointer underline'}>Factorial Capital</a>.
                                 I spend the rest of my time doing things without considering their <a href={'https://en.wikipedia.org/wiki/Utility_monster'} className={'cursor-pointer underline'}>utility</a>.
                                 I've written about some of these things below.
                                 </p>
