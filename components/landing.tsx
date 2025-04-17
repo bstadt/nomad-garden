@@ -48,8 +48,8 @@ export default function Landing({ slugs, metas }) {
 
     return (
         <div className="flex flex-col h-screen text-lg text-base">
-            <div className="w-full mt-[10vh]">
-                <div className="grid grid-cols-1 md:grid-cols-11 gap-4 h-[calc(screen-mt-[10vh])]">
+            <div className="w-full mt-[5vh] md:mt-[10vh]">
+                <div className="grid grid-cols-1 md:grid-cols-11 gap-4 mt-[5vh]) md:h-[calc(screen-mt-[10vh])]">
                     <div className="hidden md:block md:col-span-1"></div>
 
                     <div className={`col-span-1 md:col-span-4 p-4 flex justify-center transition-all duration-700 ease-out delay-0 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
