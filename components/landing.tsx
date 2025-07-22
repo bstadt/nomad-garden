@@ -94,11 +94,11 @@ export default function Landing({ slugs, metas }) {
                                 I've written about some of these things below.
                                 </p>
                             </div>
-                            <div className=''>
+                            <div id='articlelist' className=''>
                                 <ul
                                     ref={listRef}
                                     onScroll={handleListScroll}
-                                    className={`text-center overflow-y-scroll mb-2 md:max-h-[calc(2.5rem*9)] transform transition-all duration-700 ease-out delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                    className={`text-center overflow-y-scroll no-scrollbar mb-2 md:max-h-[calc(2.5rem*9)] transform transition-all duration-700 ease-out delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                                 >
                                     {sortedIndices.map((index) => (
                                         <li
