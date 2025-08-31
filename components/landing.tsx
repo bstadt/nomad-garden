@@ -91,7 +91,7 @@ export default function Landing({ slugs, metas }) {
                                 I spend most of my time working as an <a href={'https://en.wikipedia.org/wiki/Body_without_organs'} className={'cursor-pointer underline'}> organ</a> of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://calcifercomputing.com/'} className={'cursor-pointer underline'}>Calcifer</a>. 
                                 I also spend some time investing in early stage companies with <a href={'https://www.factorialcap.com/'} className={'cursor-pointer underline'}>Factorial Capital</a>.
                                 Previously, I cofounded <a href={'https://www.nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>, and before that, I trained the first CT and MRI models at <a href={'https://www.radai.com/'} className={'cursor-pointer underline'}>Rad AI</a>.
-                                Sometimes, I write about things, which you can find below.
+                                You can find some of my writing below:
                                 </p>
                             </div>
                             <div id='articlelist' className=''>
