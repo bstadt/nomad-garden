@@ -88,7 +88,8 @@ export default function Landing({ slugs, metas }) {
                         <div>
                             <div className={`text-justify pb-8 transform transition-all duration-700 ease-out delay-150 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                                 <p>Hi, I'm <ExitLink href={'/posts/bio'} className={'cursor-pointer underline'}>Brandon</ExitLink>.
-                                I spend most of my time working as an <a href={'https://en.wikipedia.org/wiki/Body_without_organs'} className={'cursor-pointer underline'}> organ</a> of the <a href={'https://en.wikipedia.org/wiki/Egregore'} className={'cursor-pointer underline'}>egregore</a> <a href={'https://calcifercomputing.com/'} className={'cursor-pointer underline'}>Calcifer</a>. 
+                                I spend most of my time thinking about <ExitLink href={'/posts/semiotic-physics'} className={'cursor-pointer underline'}>computational semiotics</ExitLink> at Calcifer, an orgainization I founded to focus on the long-term impacts of AI on our epistemic environment.
+                                As a faculty member at Johns Hopkins University, I teach <a href="https://drive.google.com/drive/folders/1_kVXXXyjIBNTmbLuIn5ZqhDLcM6inc_C?usp=sharing" className="cursor-pointer underline" target="_blank" rel="noopener noreferrer">Introduction to Computational Semiotics</a> and advise independent studies.
                                 I also spend some time investing in early stage companies with <a href={'https://www.factorialcap.com/'} className={'cursor-pointer underline'}>Factorial Capital</a>.
                                 Previously, I cofounded <a href={'https://www.nomic.ai/'} className={'cursor-pointer underline'}>Nomic</a>, and before that, I trained the first CT and MRI models at <a href={'https://www.radai.com/'} className={'cursor-pointer underline'}>Rad AI</a>.
                                 You can find some of my writing below:
@@ -98,7 +99,7 @@ export default function Landing({ slugs, metas }) {
                                 <ul
                                     ref={listRef}
                                     onScroll={handleListScroll}
-                                    className={`text-center overflow-y-scroll no-scrollbar mb-2 md:max-h-[calc(2.5rem*9)] transform transition-all duration-700 ease-out delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                    className={`text-center overflow-y-scroll no-scrollbar mb-2 md:max-h-[calc(2.5rem*7)] transform transition-all duration-700 ease-out delay-300 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                                 >
                                     {sortedIndices.map((index) => (
                                         <li
