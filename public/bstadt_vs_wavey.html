@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>bstadt vs wavey</title>
+<style>
+  :root {
+    --bg: #0e0e10;
+    --panel: #16161a;
+    --border: #2a2a30;
+    --text: #e6e6e6;
+    --muted: #8a8a93;
+    --accent: #6ee7b7;
+    --accent-2: #93c5fd;
+    --warn: #fca5a5;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 14px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .panel h2 {
+    margin: 0; font-size: 13px; font-weight: 600;
+    color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .panel h2 .fps { color: var(--accent); font-weight: 400; }
+  video {
+    width: 100%;
+    background: #000;
+    border-radius: 4px;
+    display: block;
+    max-height: 60vh;
+    object-fit: contain;
+  }
+  .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .row.tight { gap: 4px; }
+  input[type=range] {
+    flex: 1; min-width: 100px;
+    -webkit-appearance: none; appearance: none;
+    height: 6px;
+    background: #2a2a30;
+    border-radius: 3px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid #0e0e10;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid #0e0e10;
+  }
+  .master input[type=range]::-webkit-slider-thumb { background: var(--accent-2); }
+  .master input[type=range]::-moz-range-thumb { background: var(--accent-2); }
+  button {
+    background: #1f1f25;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    min-width: 28px;
+  }
+  button:hover { background: #2a2a30; border-color: #3a3a40; }
+  button:active { background: #34343a; }
+  button.primary {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: white;
+    font-weight: 600;
+  }
+  button.primary:hover { background: #1d4ed8; }
+  .time {
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+  .time .muted { color: var(--muted); }
+  .time .frame { color: var(--accent); }
+  .master {
+    grid-column: 1 / -1;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .master h2 {
+    margin: 0; font-size: 13px; font-weight: 600;
+    color: var(--accent-2); letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .legend {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  kbd {
+    background: #1f1f25;
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .offset { color: var(--warn); }
+  .sync-mode { display: flex; gap: 4px; align-items: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="panel" data-id="a">
+    <h2><span>bstadt.mp4</span><span class="fps" id="fps-a">— fps</span></h2>
+    <video id="vid-a" preload="auto" playsinline>
+      <source src="/bstadt.mp4" type="video/mp4">
+    </video>
+    <input type="range" id="seek-a" min="0" max="1000" value="0" step="0.001">
+    <div class="row tight">
+      <button data-target="a" data-step="-10">−10f</button>
+      <button data-target="a" data-step="-1">−1f</button>
+      <button data-target="a" data-play>▶</button>
+      <button data-target="a" data-step="1">+1f</button>
+      <button data-target="a" data-step="10">+10f</button>
+      <div style="flex:1"></div>
+      <span class="time">
+        <span class="frame" id="frame-a">0</span><span class="muted">/<span id="frame-total-a">0</span></span>
+        &nbsp;<span id="time-a">00:00.000</span><span class="muted">/<span id="dur-a">00:00.000</span></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="panel" data-id="b">
+    <h2><span>wavey.mp4</span><span class="fps" id="fps-b">— fps</span></h2>
+    <video id="vid-b" preload="auto" playsinline>
+      <source src="/wavey.mp4" type="video/mp4">
+    </video>
+    <input type="range" id="seek-b" min="0" max="1000" value="0" step="0.001">
+    <div class="row tight">
+      <button data-target="b" data-step="-10">−10f</button>
+      <button data-target="b" data-step="-1">−1f</button>
+      <button data-target="b" data-play>▶</button>
+      <button data-target="b" data-step="1">+1f</button>
+      <button data-target="b" data-step="10">+10f</button>
+      <div style="flex:1"></div>
+      <span class="time">
+        <span class="frame" id="frame-b">0</span><span class="muted">/<span id="frame-total-b">0</span></span>
+        &nbsp;<span id="time-b">00:00.000</span><span class="muted">/<span id="dur-b">00:00.000</span></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="master">
+    <h2>linked controls</h2>
+    <div class="row">
+      <button class="primary" id="play-both">▶ play both</button>
+      <button data-master-step="-10">−10f both</button>
+      <button data-master-step="-1">−1f both</button>
+      <button data-master-step="1">+1f both</button>
+      <button data-master-step="10">+10f both</button>
+      <div style="flex:1"></div>
+      <label class="sync-mode">
+        <input type="checkbox" id="lock-offset" checked>
+        lock offset between A and B
+      </label>
+      <button id="reset-offset" title="set A and B to same time">align A=B</button>
+    </div>
+    <input type="range" id="seek-master" min="0" max="1000" value="0" step="0.001">
+    <div class="row">
+      <span class="time">
+        A: <span id="time-a-2">00:00.000</span> &nbsp; B: <span id="time-b-2">00:00.000</span> &nbsp;
+        <span class="muted">offset (B − A):</span> <span class="offset" id="offset">+0.000</span>s
+      </span>
+      <div style="flex:1"></div>
+      <span class="legend">
+        <kbd>Space</kbd> play both &nbsp;
+        <kbd>,</kbd>/<kbd>.</kbd> ±1 frame both &nbsp;
+        <kbd>&lt;</kbd>/<kbd>&gt;</kbd> ±10 frames both &nbsp;
+        <kbd>a</kbd>/<kbd>b</kbd> toggle single play
+      </span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const FPS = { a: 30000/1001, b: 30 };
+const vids = { a: document.getElementById('vid-a'), b: document.getElementById('vid-b') };
+const seek = { a: document.getElementById('seek-a'), b: document.getElementById('seek-b') };
+const seekMaster = document.getElementById('seek-master');
+let suppress = false;
+let lockedOffset = 0;
+
+function fmtTime(t) {
+  if (!isFinite(t)) return '00:00.000';
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  const ms = Math.floor((t - Math.floor(t)) * 1000);
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(3,'0')}`;
+}
+
+function frameOf(id) { return Math.round(vids[id].currentTime * FPS[id]); }
+function totalFrames(id) {
+  const d = vids[id].duration;
+  return isFinite(d) ? Math.round(d * FPS[id]) : 0;
+}
+
+function updateUI() {
+  for (const id of ['a','b']) {
+    const v = vids[id];
+    document.getElementById(`time-${id}`).textContent = fmtTime(v.currentTime);
+    document.getElementById(`dur-${id}`).textContent = fmtTime(v.duration);
+    document.getElementById(`frame-${id}`).textContent = frameOf(id);
+    document.getElementById(`frame-total-${id}`).textContent = totalFrames(id);
+    document.getElementById(`fps-${id}`).textContent = FPS[id].toFixed(3) + ' fps';
+    if (isFinite(v.duration) && v.duration > 0) {
+      const pct = (v.currentTime / v.duration) * 1000;
+      if (!suppress) seek[id].value = pct;
+    }
+    const playBtn = document.querySelector(`button[data-target="${id}"][data-play]`);
+    if (playBtn) playBtn.textContent = v.paused ? '▶' : '⏸';
+  }
+  document.getElementById('time-a-2').textContent = fmtTime(vids.a.currentTime);
+  document.getElementById('time-b-2').textContent = fmtTime(vids.b.currentTime);
+  const off = vids.b.currentTime - vids.a.currentTime;
+  document.getElementById('offset').textContent = (off >= 0 ? '+' : '') + off.toFixed(3);
+  const maxDur = Math.max(vids.a.duration || 0, vids.b.duration || 0);
+  if (isFinite(maxDur) && maxDur > 0 && !suppress) {
+    const refTime = Math.max(vids.a.currentTime, vids.b.currentTime);
+    seekMaster.value = (refTime / maxDur) * 1000;
+  }
+  document.getElementById('play-both').textContent = (vids.a.paused && vids.b.paused) ? '▶ play both' : '⏸ pause both';
+}
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+function setTime(id, t) {
+  const v = vids[id];
+  if (!isFinite(v.duration)) return;
+  v.currentTime = clamp(t, 0, v.duration);
+}
+
+function stepFrames(id, n) {
+  vids[id].pause();
+  setTime(id, vids[id].currentTime + n / FPS[id]);
+}
+
+function stepBoth(n) {
+  vids.a.pause(); vids.b.pause();
+  stepFrames('a', n);
+  const dt = n / FPS.a;
+  setTime('b', vids.b.currentTime + dt);
+}
+
+document.querySelectorAll('button[data-step]').forEach(btn => {
+  btn.addEventListener('click', () => stepFrames(btn.dataset.target, parseInt(btn.dataset.step)));
+});
+document.querySelectorAll('button[data-play]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const v = vids[btn.dataset.target];
+    if (v.paused) v.play(); else v.pause();
+  });
+});
+
+document.querySelectorAll('button[data-master-step]').forEach(btn => {
+  btn.addEventListener('click', () => stepBoth(parseInt(btn.dataset.masterStep)));
+});
+
+for (const id of ['a','b']) {
+  seek[id].addEventListener('input', e => {
+    suppress = true;
+    const v = vids[id];
+    if (isFinite(v.duration)) setTime(id, (e.target.value/1000) * v.duration);
+    suppress = false;
+    updateUI();
+  });
+}
+
+seekMaster.addEventListener('input', e => {
+  suppress = true;
+  const maxDur = Math.max(vids.a.duration || 0, vids.b.duration || 0);
+  if (!isFinite(maxDur) || maxDur <= 0) { suppress = false; return; }
+  const tRef = (e.target.value/1000) * maxDur;
+  setTime('a', tRef);
+  const off = document.getElementById('lock-offset').checked ? lockedOffset : 0;
+  setTime('b', tRef + off);
+  suppress = false;
+  updateUI();
+});
+
+document.getElementById('lock-offset').addEventListener('change', e => {
+  if (e.target.checked) lockedOffset = vids.b.currentTime - vids.a.currentTime;
+});
+for (const id of ['a','b']) {
+  seek[id].addEventListener('change', () => {
+    if (document.getElementById('lock-offset').checked) {
+      lockedOffset = vids.b.currentTime - vids.a.currentTime;
+    }
+  });
+}
+
+document.getElementById('reset-offset').addEventListener('click', () => {
+  setTime('b', vids.a.currentTime);
+  lockedOffset = 0;
+  updateUI();
+});
+
+document.getElementById('play-both').addEventListener('click', () => {
+  const playing = !(vids.a.paused && vids.b.paused);
+  if (playing) { vids.a.pause(); vids.b.pause(); }
+  else { vids.a.play(); vids.b.play(); }
+});
+
+function tick() { updateUI(); requestAnimationFrame(tick); }
+requestAnimationFrame(tick);
+
+for (const id of ['a','b']) {
+  vids[id].addEventListener('loadedmetadata', updateUI);
+  vids[id].addEventListener('timeupdate', updateUI);
+  vids[id].addEventListener('play', updateUI);
+  vids[id].addEventListener('pause', updateUI);
+  vids[id].addEventListener('seeked', updateUI);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
+  switch (e.key) {
+    case ' ':
+      e.preventDefault();
+      document.getElementById('play-both').click();
+      break;
+    case ',': e.preventDefault(); stepBoth(-1); break;
+    case '.': e.preventDefault(); stepBoth(1); break;
+    case '<': e.preventDefault(); stepBoth(-10); break;
+    case '>': e.preventDefault(); stepBoth(10); break;
+    case 'a': { const v = vids.a; if (v.paused) v.play(); else v.pause(); break; }
+    case 'b': { const v = vids.b; if (v.paused) v.play(); else v.pause(); break; }
+  }
+});
+</script>
+</body>
+</html>
