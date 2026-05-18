@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>bstadt vs wavey</title>
+<title>pairwise video comparison</title>
 <style>
   :root {
     --bg: #0e0e10;
@@ -42,9 +42,20 @@
   .panel h2 {
     margin: 0; font-size: 13px; font-weight: 600;
     color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase;
-    display: flex; justify-content: space-between; align-items: baseline;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
   }
   .panel h2 .fps { color: var(--accent); font-weight: 400; }
+  select {
+    background: #1f1f25;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-family: inherit;
+    font-size: 12px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
   video {
     width: 100%;
     background: #000;
@@ -142,10 +153,11 @@
 <div class="wrap">
 
   <div class="panel" data-id="a">
-    <h2><span>bstadt.mp4</span><span class="fps" id="fps-a">— fps</span></h2>
-    <video id="vid-a" preload="auto" playsinline>
-      <source src="/bstadt.mp4" type="video/mp4">
-    </video>
+    <h2>
+      <select id="src-a" class="src-select"></select>
+      <span class="fps" id="fps-a">— fps</span>
+    </h2>
+    <video id="vid-a" preload="auto" playsinline></video>
     <input type="range" id="seek-a" min="0" max="1000" value="0" step="0.001">
     <div class="row tight">
       <button data-target="a" data-step="-10">−10f</button>
@@ -162,10 +174,11 @@
   </div>
 
   <div class="panel" data-id="b">
-    <h2><span>wavey.mp4</span><span class="fps" id="fps-b">— fps</span></h2>
-    <video id="vid-b" preload="auto" playsinline>
-      <source src="/wavey.mp4" type="video/mp4">
-    </video>
+    <h2>
+      <select id="src-b" class="src-select"></select>
+      <span class="fps" id="fps-b">— fps</span>
+    </h2>
+    <video id="vid-b" preload="auto" playsinline></video>
     <input type="range" id="seek-b" min="0" max="1000" value="0" step="0.001">
     <div class="row tight">
       <button data-target="b" data-step="-10">−10f</button>
@@ -215,12 +228,43 @@
 </div>
 
 <script>
-const FPS = { a: 30000/1001, b: 30 };
+// Known FPS per video (probed with ffprobe). Unknown sources fall back to 30.
+const VIDEOS = [
+  { file: 'bstadt.mp4',                       fps: 30000/1001 },
+  { file: 'wavey.mp4',                        fps: 30 },
+  { file: 'rizzo.mp4',                        fps: 60000/1001 },
+  { file: 'same_shit_different_claude.mp4',   fps: 30 },
+];
+const DEFAULTS = { a: 'bstadt.mp4', b: 'wavey.mp4' };
+const FPS_FALLBACK = 30;
+
 const vids = { a: document.getElementById('vid-a'), b: document.getElementById('vid-b') };
 const seek = { a: document.getElementById('seek-a'), b: document.getElementById('seek-b') };
+const sel  = { a: document.getElementById('src-a'), b: document.getElementById('src-b') };
 const seekMaster = document.getElementById('seek-master');
+const curFps = { a: FPS_FALLBACK, b: FPS_FALLBACK };
 let suppress = false;
 let lockedOffset = 0;
+
+function populateSelects() {
+  for (const id of ['a','b']) {
+    sel[id].innerHTML = '';
+    for (const v of VIDEOS) {
+      const opt = document.createElement('option');
+      opt.value = v.file;
+      opt.textContent = v.file;
+      sel[id].appendChild(opt);
+    }
+    sel[id].value = DEFAULTS[id];
+  }
+}
+
+function loadVideo(id, file) {
+  const entry = VIDEOS.find(v => v.file === file);
+  curFps[id] = entry ? entry.fps : FPS_FALLBACK;
+  vids[id].src = '/' + file;
+  vids[id].load();
+}
 
 function fmtTime(t) {
   if (!isFinite(t)) return '00:00.000';
@@ -230,10 +274,10 @@ function fmtTime(t) {
   return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(3,'0')}`;
 }
 
-function frameOf(id) { return Math.round(vids[id].currentTime * FPS[id]); }
+function frameOf(id) { return Math.round(vids[id].currentTime * curFps[id]); }
 function totalFrames(id) {
   const d = vids[id].duration;
-  return isFinite(d) ? Math.round(d * FPS[id]) : 0;
+  return isFinite(d) ? Math.round(d * curFps[id]) : 0;
 }
 
 function updateUI() {
@@ -243,7 +287,7 @@ function updateUI() {
     document.getElementById(`dur-${id}`).textContent = fmtTime(v.duration);
     document.getElementById(`frame-${id}`).textContent = frameOf(id);
     document.getElementById(`frame-total-${id}`).textContent = totalFrames(id);
-    document.getElementById(`fps-${id}`).textContent = FPS[id].toFixed(3) + ' fps';
+    document.getElementById(`fps-${id}`).textContent = curFps[id].toFixed(3) + ' fps';
     if (isFinite(v.duration) && v.duration > 0) {
       const pct = (v.currentTime / v.duration) * 1000;
       if (!suppress) seek[id].value = pct;
@@ -273,13 +317,13 @@ function setTime(id, t) {
 
 function stepFrames(id, n) {
   vids[id].pause();
-  setTime(id, vids[id].currentTime + n / FPS[id]);
+  setTime(id, vids[id].currentTime + n / curFps[id]);
 }
 
 function stepBoth(n) {
   vids.a.pause(); vids.b.pause();
   stepFrames('a', n);
-  const dt = n / FPS.a;
+  const dt = n / curFps.a;
   setTime('b', vids.b.currentTime + dt);
 }
 
@@ -304,6 +348,11 @@ for (const id of ['a','b']) {
     if (isFinite(v.duration)) setTime(id, (e.target.value/1000) * v.duration);
     suppress = false;
     updateUI();
+  });
+  sel[id].addEventListener('change', e => {
+    vids[id].pause();
+    loadVideo(id, e.target.value);
+    lockedOffset = 0;
   });
 }
 
@@ -355,6 +404,7 @@ for (const id of ['a','b']) {
 
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
+  if (e.target.tagName === 'SELECT') return;
   switch (e.key) {
     case ' ':
       e.preventDefault();
@@ -368,6 +418,10 @@ document.addEventListener('keydown', e => {
     case 'b': { const v = vids.b; if (v.paused) v.play(); else v.pause(); break; }
   }
 });
+
+populateSelects();
+loadVideo('a', DEFAULTS.a);
+loadVideo('b', DEFAULTS.b);
 </script>
 </body>
 </html>
